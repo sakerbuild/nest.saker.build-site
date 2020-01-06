@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<div id="landingpage" class="container contentcontainerpadded" style="position: relative;">
+	<div style="text-align: center;">
+		<div style="display: inline-block;">
+			<img class="main-logo" src="/res/logo.svg"/>
+			<div class="main-head">
+				Saker.nest plugin repository
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="main-sub col-sm-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8">
+			<p>Saker.nest is the default task and library repository for the <a href="https://saker.build">saker.build system</a>. It is a public repository for the community to share and use build tasks for creating software. </p>
+			<p>Registration is not required for using the repository, only if you'd like to upload your own packages.</p>
+		</div>
+	</div>	
+	<div class="text-center">
+		<span class="page-subsection-title">
+			Latest releases
+		</span>
+	</div>
+	<div class="row">
+		<div id="searchresultsdiv" class="emptyplaceholded col-sm-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8" style="position: relative; text-align: center" data-empty-placeholder="No package releases found.">
+			<div style="min-height: 30vh;">
+				<div class="lds-ellipsis" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto;"><div></div><div></div><div></div><div></div></div>
+			</div>
+		</div>
+	</div>	
+</div>
+<script type="text/javascript">
+	document.title = 'Saker.nest plugin repository';
+	$(document).ready(function(){
+		let jqresdiv = $('#searchresultsdiv');
+		nest.search.searchForDivLatestReleases(jqresdiv);
+	});
+</script>
+</html>

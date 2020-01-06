@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html>
+<div id="bundlespage" class="userinfo-loggedin-visible">
+	<div class="container">
+		<div class="row" style="min-height: calc(100vh - var(--nav-height) - var(--footer-height)); align-content: flex-start;">
+			<div class="separator-right-bordered-lg col-lg-3 px-3 px-lg-0" style="padding: 20px 0;">
+				<div id="bundlelistcontainer" style="display: none;">
+					<ul id="bundlelist">
+					</ul>
+					<div id="bundlenameaddinfo" class="secondaryinfo small non-active-hidden">
+					Package names are globally unique and should reflect basic information about its purpose. <br/>
+					E.g. company.calendar.utils
+					</div>
+					<a id="newbundlelink" title="Create new package" style="font-size: 1.25em; padding: 3px; display: block; font-style: italic;"> + Create new package</a>
+				</div>
+			</div>
+			<div id="bundleeditordiv" class="col-lg-9" style="position: relative; padding: 0;min-height: 10vh;">
+				<div id="noselectedbundleplaceholder" class="secondaryinfo">
+					<svg style="width:1.5em;height:1.5em; display: inline-block;" viewBox="0 0 24 24">
+					    <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+					</svg>
+					<div style="display: inline-block;">
+						No selected bundle. <br/> Use the pane on the left to create one.
+					</div>
+				</div>
+				<div id="detailstabbedviewer" class="tabbedviewer contentcontainerpadded" >
+					<div class="tabs"  style="padding: 0 15px;">
+						<div class="tab" title="Package details" data-tab-content-id="detailscontainer">Details</div>
+						<div class="tab" title="Package versions" data-tab-content-id="versionscontainer">Versions</div>
+						<div class="tab" title="Bundles in the package" data-tab-content-id="bundlescontainer">Bundles</div>
+						<div class="tab" title="Tasks associated with the package" data-tab-content-id="taskscontainer">Tasks</div>
+					</div>
+					<div id="tabcontainer" class="tabcontainer" style="padding: 10px 15px;">
+						<div id="detailscontainer" data-tab-content-id="detailscontainer" class="tabcontent">
+							<div id="detailscontent" style="position: relative; display: none;">
+								<div style="float: right;">
+									<a id="visitpagebutton" title="View the public page for this package" class="buttonstyled" style="margin: 3px;">View public page</a>
+									<button id="unclaimdetailsbutton" title="Delete package" style="margin: 3px; display: none;">Delete...</button>
+									<button id="savedetailsbutton" title="Save changes" style="margin: 3px;">Save</button>
+								</div>
+								<h5 id="bundlename" style="margin-right: auto;"></h5>
+								
+								<div>
+									<div>Description <span class="secondaryinfo">(Max 300 characters)</span></div>
+									<div class="secondaryinfo small">
+										Short description is displayed in the search results and on the package details page.
+										It is required to appear among the search results.
+									</div>
+									<textarea id="detailsdescription" title="Package description" maxlength="300" placeholder="Short description about this package..." 
+										style="width: 100%; min-height: 100px; max-height: 50vh;"></textarea>
+									
+									<div>Tags <span class="secondaryinfo">(Max 10 tag)</span></div>
+									<div class="secondaryinfo small">Tags are displayed in the search results and on the package details page.</div>
+									<div class="secondaryinfo small">Drag to reorder and delete tags.</div>
+									<div id="tagscontent" style="display: flex; align-items: center;">
+										<button id="addtagsvgbutton" title="Add tag" type="button" style="margin: 3px;">Add</button>
+										<div id="tags" class="emptyplaceholded" data-empty-placeholder="No tags." style="margin: 5px; display: block;"></div>
+										<svg id="tagtrashbin" viewBox="0 0 24 24" style="padding: 3px; height: 3em; flex-shrink: 0;">
+											<path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+										</svg>
+									</div>
+								</div>
+								<div>
+									<div>Package license</div>
+									<div class="secondaryinfo small">
+										Specify the license that applies to the package. You can also specify individual licenses for each bundle.<br/>
+										See <a href="https://spdx.org/licenses/" title="SPDX License List">SPDX License List</a> for common licenses and abbreviations.
+									</div>
+									<div>
+										<input id="licenseabbrev" style="width: 20%;" type="text" title="License abbreviation" placeholder="Abbreviation" name="license_abbreviation">
+										<input id="licenseurl" style="min-width: 50%;max-width:75%;" type="url" title="License text URL" placeholder="License text URL" name="license_url">
+									</div>
+								</div>
+								<div>
+									<div>Code repository</div>
+									<div class="secondaryinfo small">
+										URL to the website that hosts the source code associated with the package and its bundles.
+									</div>
+									<div>
+										<input id="sourcerepourl" style="min-width: 50%;max-width: 100%;" type="url" title="Source reposository site URL" placeholder="Repository URL" name="source_repo_url">
+									</div>
+								</div>
+								<div>
+									<div>Documentation</div>
+									<div class="secondaryinfo small">
+										URL to the website that provides documentation for the package.
+									</div>
+									<div>
+										<input id="documentationurl" style="min-width: 50%;max-width: 100%;" type="url" title="Documentation site URL" placeholder="Documentation URL" name="documentation_url">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="versionscontainer" data-tab-content-id="versionscontainer" class="tabcontent">
+							<div id="manageversioncontent" class="versioned-only-content">
+								<div style="margin-bottom: 5px;">
+									<div class="dropdown versioned-only-content" style="display: inline-block; float: right;">
+										<a class="dropdown-toggle" title="Select version" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 3px;">
+											Select version (<span id="currentmanagedversion" style="font-weight: bold;"></span>)
+										</a>
+									
+										<div id="manageversionslist" class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="overflow-y: auto; max-height: 50vh; text-align: right;">
+										</div>
+									</div>
+									<h5 style="margin: 0; margin-right: auto;">Manage version <span id="currentmanagedversion"></span></h5>
+								</div>
+								<div style="float: right;">
+									<button id="publishversionbutton" title="Publish version" style="margin: 3px;">Publish...</button>
+								</div>
+								<p id="publisheddate" class="publisheddisplayer" style="margin: 0;"></p>
+								<div id="publisherdiv" class="secondaryinfo">
+									Not yet published.
+								</div>
+								
+								<div style="padding: 5px 0px;">
+									<div>Changelog <span class="secondaryinfo">(Max 500 characters)</div>
+									<div class="secondaryinfo small">
+										The changelog is displayed on the package details page for the selected version. <br/>
+										It should consist of a small list of notable changes in this version.
+									</div>
+									<textarea id="changelogtextarea" title="Version changelog" maxlength="500" placeholder="What is new in this version?" 
+										style="width: 100%; min-height: 100px; max-height: 50vh;"></textarea>
+								</div>
+								
+							</div>
+							<div id="nopresentversionplaceholder" class="secondaryinfo not-versioned-only-content">
+								No bundles uploaded yet. <a href="https://saker.build/saker.nest/doc/websiteguide/uploading.html" title="Uploading bundles | saker.nest">Upload one</a> to create a new version.
+							</div>
+						</div>
+						<div id="taskscontainer" data-tab-content-id="taskscontainer" class="tabcontent">
+							<div id="claimedtaskscontainer">
+								<div>Claimed tasks</div>
+								<div class="secondaryinfo small">
+									The following list contains all of the task names which are bound to this bundle. <br/>
+									Task names are globally unique and should reflect basic information about what it does. <br/>
+									For more information please refer to the <a href="https://saker.build/saker.nest/doc/websiteguide/naming.html" title="Naming | saker.nest">documentation</a>.
+								</div>
+								<div id="claimedtaskscontent">
+									<div id="claimedtaskslist" class="emptyplaceholded" data-empty-placeholder="No tasks claimed."></div>
+									<form id="claimtaskform">
+										<input type="text" placeholder="Task name" name="taskname" required>
+										<button type="submit" title="Claim task">Claim</button>
+									</form>
+								</div>
+								<hr/>
+								<div class="dropdown versioned-only-content" style="display: inline-block; float: right;">
+									<a class="dropdown-toggle" title="Select version" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 3px;">
+										Select version (<span id="currentmanagedversion" style="font-weight: bold;"></span>)
+									</a>
+								
+									<div id="manageversionslist" class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="overflow-y: auto; max-height: 50vh; text-align: right;">
+									</div>
+								</div>
+								<div id="nopresentversionplaceholder" class="secondaryinfo not-versioned-only-content">
+									No bundles uploaded yet. <a href="https://saker.build/saker.nest/doc/websiteguide/uploading.html" title="Uploading bundles | saker.nest">Upload one</a> to create a new version.
+								</div>
+								<div class="versioned-only-content">
+									<h5>Uploaded tasks <span id="currentmanagedversion" style="font-weight: bold;"></span></h5>
+									<div id="uploadedtasks" class="emptyplaceholded" data-empty-placeholder="No uploaded tasks in this version."></div>
+									<div id="bulktaskops"></div>
+								</div>
+							</div>
+						</div>
+						<div id="bundlescontainer" data-tab-content-id="bundlescontainer" class="tabcontent">
+							<div id="apikeyscontainer">
+								<div>Upload API keys</div>
+								<div class="secondaryinfo small">
+									The following API keys can be used to upload bundles. 
+									Use the build system to create, export, and upload bundles to the repository.<br/>
+									For more information about this please refer to the <a href="https://saker.build/saker.nest/doc/websiteguide/uploading.html" title="Uplading bundles | saker.nest">documentation</a>.
+								</div>
+								<div class="top-right-copy-holder">
+									<div id="apikeyscontent" style="position: relative;">Key: <span id="apikeykey"></span><br/>
+Secret: <span id="apikeysecret"></span></div>
+									<div id="apikeyscopylink" class="top-right-copy-image" data-toggle="tooltip" data-placement="top" title="Copy">
+										<svg viewBox="0 0 24 24" style="display: block;">
+										    <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+										</svg>
+									</div>
+								</div>
+								<div>
+									<div>Regenerate API keys</div>
+									<div class="secondaryinfo small">
+										If you've happened to disclose your API keys (e.g. uploaded them to a public surface like GitHub),
+										then you can revoke those keys and generate new ones using the following button:
+									</div>
+									<button id="regeneratekeysbutton" title="Regenerate API keys" style="margin: 3px;">Regenerate keys</button>
+								</div>
+								<hr/>
+								<div class="dropdown versioned-only-content" style="display: inline-block; float: right;">
+									<a class="dropdown-toggle" title="Select version" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 3px;">
+										Select version (<span id="currentmanagedversion" style="font-weight: bold;"></span>)
+									</a>
+								
+									<div id="manageversionslist" class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="overflow-y: auto; max-height: 50vh; text-align: right;">
+									</div>
+								</div>
+								<div id="nopresentversionplaceholder" class="secondaryinfo not-versioned-only-content">
+									No bundles uploaded yet. <a href="https://saker.build/saker.nest/doc/websiteguide/uploading.html" title="Uploading bundles | saker.nest">Upload one</a> to create a new version.
+								</div>
+								<div class="versioned-only-content">
+									<h5>Uploaded bundles <span id="currentmanagedversion" style="font-weight: bold;"></span></h5>
+									<div id="uploadedbundles" class="emptyplaceholded" data-empty-placeholder="No uploaded bundles."></div>
+									<div id="bulkbundleops"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="lds-ellipsis" style="position: absolute; left: 0; right: 0; top: 0; padding-top: 20%; margin: auto;"><div></div><div></div><div></div><div></div></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="publishconfirmmodal" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Publish version <span id="version"></span></h4>
+				</div>
+				
+				<div class="modal-body">
+					<p>Publishing makes this version available for other developers to use. </p>
+					<p>After publishing you will not be able to delete from or upload new bundles to this version. You can still modify descriptions, changelogs, and other metadata. </p>
+					<p>Are you sure you want to publish this version (<span id="version"></span>)?</p>
+				</div>
+				
+				<div class="modal-footer">
+					<button id="publishconfirmyes" type="button"  data-dismiss="modal">Yes</button>
+					<button type="button" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="unclaimbundleconfirmmodal" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Delete package <span id="bundlename"></span></h4>
+				</div>
+				
+				<div class="modal-body">
+					<p>Deleting this package will delete any uploaded bundles, created documentation, and other resources associated with it.</p>
+					<p>This action cannot be undone.</p>
+					<p>Are you sure you want to continue?</p>
+				</div>
+				
+				<div class="modal-footer">
+					<button id="unclaimbundleconfirmyes" type="button" data-dismiss="modal">Yes</button>
+					<button type="button" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="deletebundleconfirmmodal" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Delete bundle</h4>
+				</div>
+				
+				<div class="modal-body">
+					<p>Are you sure you want to delete the following uploaded bundle?<br/>
+					<span id="bundlename" style="font-style: italic; margin-left: 5px;"></span></p>
+				</div>
+				
+				<div class="modal-footer">
+					<button id="deletebundleconfirmyes" type="button" data-dismiss="modal">Yes</button>
+					<button type="button" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="deleteallbundlesconfirmmodal" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Delete all bundles</h4>
+				</div>
+				
+				<div class="modal-body">
+					<p>Are you sure you want to delete all uploaded bundles for this version?<br/>
+					<span id="bundlenameversion" style="font-style: italic; margin-left: 5px;"></span></p>
+				</div>
+				
+				<div class="modal-footer">
+					<button id="deleteallbundlesconfirmyes" type="button" data-dismiss="modal">Yes</button>
+					<button type="button" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="restrictedpackagenamemodal" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Restricted package name</h4>
+				</div>
+				
+				<div class="modal-body">
+					<p>The specified package name cannot be claimed as it contains restricted components: <br/>
+					<span id="packagename" style="font-style: italic; margin-left: 8px;"></span></p>
+					<p>Some well-known names can be only claimed by verified members of the community in order to 
+					avoid ambiguity and impersonation. See the <a href="https://saker.build/saker.nest/doc/websiteguide/naming.html#restricted-names" title="Restricted names">documentation</a> for more information.</p>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="restrictedtasknamemodal" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Restricted task name</h4>
+				</div>
+				
+				<div class="modal-body">
+					<p>The specified task name cannot be claimed as it contains restricted components: <br/>
+					<span id="taskname" style="font-style: italic; margin-left: 8px;"></span></p>
+					<p>Some well-known names can be only claimed by verified members of the community in order to 
+					avoid ambiguity and impersonation. See the <a href="https://saker.build/saker.nest/doc/websiteguide/naming.html#restricted-names" title="Restricted names">documentation</a> for more information.</p>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+(function() {
+
+    let starturl = new URL(document.location);
+
+    let sortablejsname = nest.utils.loadSortableListJs();
+    
+    nestclient.initMarkdownTextArea($('#bundlespage #changelogtextarea'));
+	nestclient.initMarkdownTextArea($('#bundlespage #detailsdescription'));
+
+    function claimrefreshbundles() {
+        function loadPackageDetails(bundlename) {
+            if (bundlename == null) {
+            	//to have no bundle name in the URL
+            	$('#bundlespage #bundleeditordiv').removeAttr('data-selected-package');
+            	$('#bundlespage #noselectedbundleplaceholder').removeClass('loading');
+            	nestclient.replaceHistoryURL(new URL(starturl.pathname, window.location.origin).href);
+                return;
+            }
+            nestclient.navigateNoUnsaved(function() {
+                nestclient.clearUnsaved($('#bundlespage #tabcontainer'));
+                $('#bundlespage #bundleeditordiv').removeAttr('data-selected-package');
+            	$('#bundlespage #noselectedbundleplaceholder').addClass('loading');
+
+                $('#bundlespage #bundlelist li.active').removeClass('active');
+                $('#bundlespage #bundlelist li[data-bundlename="' + bundlename + '"]').addClass('active');
+                $('#bundlespage #bundleeditordiv').append($(nestclient.loadingPlaceholderHtml).attr('data-bundlename', bundlename));
+                $('#bundlespage #detailscontent').attr({
+                    "data-bundlename": bundlename
+                });
+                $('#bundlespage #detailscontent').hide();
+                $('#bundlespage #manageversioncontent').hide();
+                $('#bundlespage #apikeyscontainer #apikeykey').empty();
+                $('#bundlespage #apikeyscontainer #apikeysecret').empty();
+                $('#bundlespage #claimedtaskslist').empty();
+                $('#bundlespage #bundleeditordiv').removeAttr('data-selected-version');
+
+                $('#bundlespage #detailscontent #bundlename').text(bundlename);
+
+                nestclient.replaceHistoryURL(new URL(starturl.pathname + '?bundlename=' + bundlename, window.location.origin).href);
+               
+                nest.bundles.getuserbundledetails(nestclient.session, bundlename)
+                    .done(function(response) {
+                        doWithLoadedScript(sortablejsname, function() {
+                            if ($('#bundlespage #detailscontent').attr('data-bundlename') != bundlename) {
+                                //other bundle was choosen meanwhile, dont do anything with the data
+                                return;
+                            }
+
+                            $('#bundlespage #bundleeditordiv').attr('data-selected-package', bundlename);
+
+                            let data = response.data;
+
+                            data.bundlesbyversion = {};
+                            data.bundlesbybundleid = {};
+                            data.presentversionnames = [];
+                            data.versionsbyversion = {};
+                            data.bundles.forEach(function(val) {
+                                let ver = nest.bundleid.getversion(val.bundleid);
+                                val.version = ver;
+
+                                if (data.bundlesbyversion[ver] == null) {
+                                    data.bundlesbyversion[ver] = [];
+                                    data.presentversionnames.push(ver);
+                                }
+                                data.bundlesbyversion[ver].push(val);
+                                data.bundlesbybundleid[val.bundleid] = val;
+                            });
+                            data.presentversionnames.sort(nest.bundleid.reverseversioncomparator);
+                            data.versions.sort(function(l, r) {
+                                return nest.bundleid.versioncomparator(l.version, r.version);
+                            });
+                            data.bundles.sort(function(l, r) {
+                                return nest.bundleid.reverseversioncomparator(l.version, r.version);
+                            });
+
+                            data.versions.forEach(function(pubver) {
+                                data.versionsbyversion[pubver.version] = pubver;
+                            });
+
+                            $('#bundlespage #detailscontent #detailsdescription')
+                                .val(data.description == null ? "" : data.description)
+                                .off('change').on('change', function() {
+                                    nestclient.addUnsaved($('#bundlespage #tabcontainer'), 'description');
+                                });
+                            $('#bundlespage #sourcerepourl')
+                            	.val(data.source_repository == null ? "" : data.source_repository)
+                            	.off('change').on('change', function() {
+                                    nestclient.addUnsaved($('#bundlespage #tabcontainer'), 'source_repository');
+                                });
+                            $('#bundlespage #documentationurl')
+                            	.val(data.documentation_url == null ? "" : data.documentation_url)
+                            	.off('change').on('change', function() {
+                                    nestclient.addUnsaved($('#bundlespage #tabcontainer'), 'documentation_url');
+                                });
+                            $('#bundlespage #licenseabbrev')
+                            	.val(data.license_abbreviation == null ? "" : data.license_abbreviation)
+                            	.off('change').on('change', function() {
+                                    nestclient.addUnsaved($('#bundlespage #tabcontainer'), 'license');
+                                });
+                        	$('#bundlespage #licenseurl')
+                            	.val(data.license_url == null ? "" : data.license_url)
+                            	.off('change').on('change', function() {
+                                    nestclient.addUnsaved($('#bundlespage #tabcontainer'), 'license');
+                                });
+
+                            let tagsdiv = $('#bundlespage #detailscontent #tags').empty();
+                            data.tags.forEach(function(tag) {
+                                tagsdiv.append(
+                                    $(document.createElement('a'))
+                                    .text('#' + tag)
+                                    .css('cursor', 'move')
+                                    .attr("data-tag", '#' + tag)
+                                    .attr('title', 'Drag to reorder or delete tag')
+                                    .addClass('searchresulttag')
+                                );
+                            });
+
+                            let jqtagtrash = $('#bundlespage #tagscontent #tagtrashbin');
+
+                            jqtagtrash.on('dragover', function() {
+                                $(this).addClass('drag-target');
+                            });
+                            jqtagtrash.on('dragleave', function() {
+                                $(this).removeClass('drag-target');
+                            });
+
+                            if (this.tagssort != null) {
+                                this.tagssort.destroy();
+                            }
+                            this.tagssort = Sortable.create(tagsdiv[0], {
+                                group: {
+                                    name: 'tags',
+                                    pull: 'clone',
+                                    put: true
+                                },
+                                onStart: function() {
+                                    jqtagtrash.addClass('dragging');
+                                },
+                                onEnd: function(ev) {
+                                    jqtagtrash.removeClass('dragging');
+                                    if (ev.to == jqtagtrash[0] && jqtagtrash.hasClass('drag-target')) {
+                                        $('#bundlespage #detailscontent #tags [data-tag="' + $(ev.item).attr('data-tag') + '"]').remove();
+                                        jqtagtrash.find('[data-tag]').remove();
+
+                                        data.tags.splice(ev.oldIndex, 1);
+                                    } else {
+                                        //the tag has been moved
+                                        data.tags = nestclient.movedelementarray(data.tags, ev.oldIndex, ev.newIndex);
+                                    }
+                                    jqtagtrash.removeClass('drag-target');
+                                    nestclient.addUnsaved($('#bundlespage #tabcontainer'), 'tags');
+                                }
+                            });
+
+                            if (this.trashsort != null) {
+                                this.trashsort.destroy();
+                            }
+                            this.trashsort = Sortable.create(jqtagtrash[0], {
+                                group: {
+                                    name: 'tagstrash',
+                                    pull: false,
+                                    put: ['tags']
+                                }
+                            });
+
+                            $('#bundlespage #addtagsvgbutton')
+                                .off('click').on('click', function() {
+                                    if (data.tags.length >= 10) {
+                                        nestclient.showtoast('Maximum tag count reached. (10)', 2000);
+                                        return;
+                                    }
+                                    let taga = $(document.createElement('a'));
+                                    let tagspan = $(document.createElement('span'));
+                                    let endtagedithandler = function() {
+                                        if (tagspan.attr('finished') != null) {
+                                            return;
+                                        }
+                                        tagspan.attr('finished', 'true');
+                                        let tagval = tagspan.text().trim();
+                                        let tag = '#' + tagval;
+                                        if (tagval.length == 0) {
+                                            taga.remove();
+                                            return;
+                                        }
+                                        if (tagval.length > 32) {
+                                            nestclient.showtoast('Maximum tag length exceeded. (32)', 2000);
+                                            taga.remove();
+                                            return;
+                                        }
+                                        if ($('#bundlespage #detailscontent #tags [data-tag="' + tag + '"]').length > 0) {
+                                            taga.remove();
+                                            return;
+                                        }
+                                        nestclient.addUnsaved($('#bundlespage #tabcontainer'), 'tags');
+                                        taga.attr({
+                                                "data-tag": '#' + tagspan.text()
+                                            })
+                                            .text(tag);
+
+                                        data.tags.push(tagval);
+                                    }
+                                    tagspan.attr({
+                                            contentEditable: true,
+                                            spellcheck: false
+                                        })
+                                        .addClass('clearingeditable')
+                                        .keypress(function(event) {
+                                            if (event.which == 13 || event.keyCode == 13) {
+                                                endtagedithandler();
+                                                return false;
+                                            }
+                                        })
+                                        .css('white-space', 'nowrap')
+                                        .css('outline', 'none')
+                                        .focusout(endtagedithandler);
+                                    tagsdiv.append(
+                                        taga
+                                        .text('#')
+                                        .append(tagspan)
+                                        .css('cursor', 'move')
+                                        .attr('title', 'Drag to reorder or delete tag')
+                                        .addClass('searchresulttag')
+                                    );
+                                    tagspan.focus();
+                                });
+
+                            function hasAnyPublishedVersion() {
+                                for (let i = 0; i < data.versions.length; ++i) {
+                                    if (data.versions[i].publishdate != null) {
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            };
+                            
+                            function deleteBundle(bundle) {
+                            	nest.bundles.delete(nestclient.session, bundle.bundleid, bundle.sha256hash)
+                                .done(function(response) {
+                                	$('#bundlespage div.uploaded-bundle-details[data-bundleid="' + bundle.bundleid + '"]').remove();
+                                    $('#bundlespage [data-task-bundle="' + bundle.bundleid + '"]').remove();
+                                    nestclient.showtoast('Bundle deleted: ' + bundle.bundleid, 2000);
+                                    for (let i = 0; i < data.bundles.length; ++i) {
+                                        if (data.bundles[i].bundleid == bundle.bundleid) {
+                                            data.bundles.splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                    let version = nest.bundleid.getversion(bundle.bundleid);
+                                    for (let i = 0; i < data.bundlesbyversion[version].length; ++i) {
+                                        if (data.bundlesbyversion[version][i].bundleid == bundle.bundleid) {
+                                            data.bundlesbyversion[version].splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                    delete data.bundlesbybundleid[bundle.bundleid];
+                                })
+                                .fail(function(xhr) {
+                                	if (nestclient.handleGenericRequestErrors(xhr)) {
+                                        return;
+                                    }
+                                    let json = xhr.responseJSON;
+                                    switch (json.error) {
+                                        case "hash_mismatch":
+                                        	nestclient.showtoast('Error deleting bundle: Bundle was modified since the page was loaded. We recommend reloading the page. (Hash mismatch)', 5000);
+                                        	break;
+                                    	case "bundle_not_found":
+                                    		nestclient.showtoast('Error deleting bundle: Not found for given name: ' + bundle.bundleid + ' We recommend reloading the page.', 5000);
+                                        	break;
+                                        case "already_published":
+                                        	nestclient.showtoast('Error deleting bundle: Associated package version was published since page was loaded. We recommend reloading the page.', 5000);
+                                        	break;
+                                        default:
+                                            nestclient.unexpectedRequestError(xhr);
+                                            break;
+                                    }
+                                });
+                            }
+
+                            //display unclaim only if there were no published versions
+                            $('#bundlespage #unclaimdetailsbutton')
+                                .toggle(!hasAnyPublishedVersion())
+                                .off('click').on('click', function() {
+                                    $('#bundlespage #unclaimbundleconfirmmodal #bundlename').text(bundlename);
+                                    $('#bundlespage #unclaimbundleconfirmmodal #unclaimbundleconfirmyes')
+                                        .off('click').on('click', function() {
+                                        	$('#bundlespage #unclaimbundleconfirmmodal').one('hidden.bs.modal', function(e){
+                                                nest.bundles.unclaim(nestclient.session, bundlename)
+                                                    .done(function(response) {
+                                                    		nestclient.clearUnsaved($('#bundlespage #tabcontainer'));
+	                                                        $('#bundlespage #bundlelist li[data-bundlename="' + bundlename + '"]').remove();
+	                                                        let nshowbundlename = $('#bundlespage #bundlelist li').attr('data-bundlename');
+	                                                        loadPackageDetails(nshowbundlename);
+                                                    })
+                                                    .fail(function(xhr){
+                                                    	claimrefreshbundles();
+                                                    })
+                                        	}).modal('hide');
+                                        });
+                                    $('#bundlespage #unclaimbundleconfirmmodal').modal('show');
+
+                                });
+                            $('#bundlespage #visitpagebutton')
+                                .toggle(hasAnyPublishedVersion())
+                                .nestLinkify('/package/' + bundlename);
+
+                            $('#bundlespage #apikeyscontent').append(
+                                $(nestclient.loadingPlaceholderHtml).attr('data-bundlename', bundlename)
+                            );
+
+                            nest.bundles.getapikeys(nestclient.session, bundlename)
+                                .done(function(response) {
+                                    if ($('#bundlespage #detailscontent').attr('data-bundlename') != bundlename) {
+                                        //other bundle was choosen meanwhile, dont do anything with the data
+                                        return;
+                                    }
+                                    $('#bundlespage #apikeyscontainer #apikeykey').text(response.key);
+                                    $('#bundlespage #apikeyscontainer #apikeysecret').text(response.secret);
+                                    $('#bundlespage #regeneratekeysbutton')
+                                        .off('click').on('click', function() {
+                                            nest.bundles.regeneratepackagekeys(nestclient.session, bundlename, {
+                                                    key: $('#bundlespage #apikeyscontainer #apikeykey').text(),
+                                                    secret: $('#bundlespage #apikeyscontainer #apikeysecret').text()
+                                                })
+                                                .done(function(response) {
+                                                    $('#bundlespage #apikeyscontainer #apikeykey').text(response.newkeys.key);
+                                                    $('#bundlespage #apikeyscontainer #apikeysecret').text(response.newkeys.secret);
+                                                    nestclient.showtoast('Success! The API keys have been regenerated.', 2000);
+                                                }).fail(function(xhr) {
+                                                    nestclient.unexpectedRequestError(xhr);
+                                                });
+                                        });
+                                }).fail(function(xhr) {
+                                    nestclient.unexpectedRequestError(xhr);
+                                }).always(function() {
+                                    $('#bundlespage #apikeyscontent>.lds-ellipsis[data-bundlename="' + bundlename + '"]').remove();
+                                });
+
+                            let claimedtasksdiv = $('#bundlespage #claimedtaskslist');
+
+                            function populateClaimedTasks() {
+                                claimedtasksdiv.empty();
+                                data.claimedtasks.sort();
+                                data.claimedtasks.forEach(function(ctask) {
+                                    let taskentrydiv = $(document.createElement('div'))
+                                        .addClass('claimedtaskcontent');
+                                    claimedtasksdiv.append(taskentrydiv);
+                                    taskentrydiv
+                                        .append(
+                                            $(`
+											<span title="Unclaim task"><svg class="unclaimtrashbin" viewBox="0 0 24 24">
+												<path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+											</svg></span>
+											`)
+                                            .click(function() {
+                                                nest.tasks.unclaim(nestclient.session, bundlename, ctask)
+                                                    .done(function(response) {
+                                                        taskentrydiv.remove();
+                                                        data.claimedtasks.splice(data.claimedtasks.indexOf(ctask), 1);
+                                                    })
+                                                    .fail(function(xhr) {
+                                                     	if (nestclient.handleGenericRequestErrors(xhr)) {
+				                                            return;
+				                                        }
+				                                        let json = xhr.responseJSON;
+				                                        switch (json.error) {
+				                                            case "already_published":
+				                                            	nestclient.showtoast('Cannot unclaim task, a bundle is already published with it: ' + ctask, 5000);
+				                                            	break;
+				                                            case "task_uploaded":
+				                                            	nestclient.showtoast('Cannot unclaim task, already part of an uploaded bundle: ' + ctask, 5000);
+				                                            	break;
+				                                            default:
+	                                                            nestclient.unexpectedRequestError(xhr);
+				                                                break;
+				                                        }
+                                                    });
+                                            })
+                                        );
+                                    taskentrydiv.append(ctask);
+                                });
+                            };
+                            populateClaimedTasks();
+                            $("#bundlespage #claimtaskform").off('submit').on('submit', function(e) {
+                                let form = $(this);
+                                let input = form.find('input[name="taskname"]');
+                                let taskname = input.val();
+                                nest.tasks.claim(nestclient.session, bundlename, taskname).done(function(response) {
+                                    data.claimedtasks.push(taskname);
+                                    populateClaimedTasks();
+                                    input.val('');
+                                }).fail(function(xhr) {
+                                    if (nestclient.handleGenericRequestErrors(xhr)) {
+                                        return;
+                                    }
+                                    let json = xhr.responseJSON;
+                                    switch (json.error) {
+                                        case "too_many_task_qualifiers":
+                                        case "invalid_parameter":
+                                            nestclient.showtoast('Invalid task name: ' + taskname + (json.message == null ? "" : ` (${ json.message })`), 5000);
+                                            break;
+                                        case "already_claimed":
+                                            nestclient.showtoast('Task name is already claimed: ' + taskname + (json.message == null ? "" : ` (${ json.message })`), 5000);
+                                            break;
+                                        case "unavailable":
+                                            nestclient.showtoast('Task name is not available: ' + taskname + (json.message == null ? "" : ` (${ json.message })`), 5000);
+                                            break;
+                                        case "name_restricted":
+                                        	$('#bundlespage #restrictedtasknamemodal #taskname').text(taskname);
+                                    		$('#bundlespage #restrictedtasknamemodal').modal('show');
+                                        	break;
+                                        default:
+                                            nestclient.showtoast('Unexpected error: ' + json.error + (json.message == null ? "" : ` (${ json.message })`), 5000);
+                                            break;
+                                    }
+                                });
+                                return false;
+                            });
+
+                            $('#bundlespage #savedetailsbutton')
+                                .off('click').on('click', function() {
+                                    collectEditVersionData();
+                                    let details = {
+                                        versions: []
+                                    };
+                                    if (nestclient.hasUnsavedId('tags', $('#bundlespage #tabcontainer'))) {
+                                        details.tags = data.tags;
+                                    }
+                                    if (nestclient.hasUnsavedId('description', $('#bundlespage #tabcontainer'))) {
+                                        details.description = $('#bundlespage #detailscontent #detailsdescription').val();
+                                    }
+                                    if (nestclient.hasUnsavedId('source_repository', $('#bundlespage #tabcontainer'))) {
+                                    	details.source_repository = $('#bundlespage #sourcerepourl').val();
+                                    }
+                                    if (nestclient.hasUnsavedId('documentation_url', $('#bundlespage #tabcontainer'))) {
+                                    	details.documentation_url = $('#bundlespage #documentationurl').val();
+                                    }
+                                    if (nestclient.hasUnsavedId('license', $('#bundlespage #tabcontainer'))) {
+                                    	details.license_url = $('#bundlespage #licenseurl').val();
+                                    	details.license_abbreviation = $('#bundlespage #licenseabbrev').val();
+                                    }
+                                    data.versions.forEach(function(versiondata) {
+                                        let verobj = {
+                                            version: versiondata.version,
+                                            bundles: []
+                                        };
+                                        if (nestclient.hasUnsavedId('changelog-' + versiondata.version, $('#bundlespage #tabcontainer'))) {
+                                            verobj.changelog = versiondata.changelog;
+                                        }
+                                        let bundlesbyver = data.bundlesbyversion[verobj.version];
+                                        if(bundlesbyver != null){
+	                                        bundlesbyver.forEach(function(bundle) {
+	                                            let bundleobj = {
+	                                                bundleid: bundle.bundleid,
+	                                                tasks: []
+	                                            };
+	                                            if (nestclient.hasUnsavedId(bundle.bundleid + '#desc', $('#bundlespage #tabcontainer'))) {
+	                                                bundleobj.description = bundle.description;
+	                                            }
+	                                            if (nestclient.hasUnsavedId(bundle.bundleid + '#license', $('#bundlespage #tabcontainer'))) {
+		                                            bundleobj.license_url = bundle.license_url;
+		                                            bundleobj.license_abbreviation = bundle.license_abbreviation;
+		                                        }
+	                                            if(bundle.tasks != null){
+		                                            bundle.tasks.forEach(function(task) {
+		                                                let taskobj = {
+		                                                    taskname: task.taskname
+		                                                };
+		                                                if (nestclient.hasUnsavedId(bundle.bundleid + '#' + task.taskname + '#taskdesc', $('#bundlespage #tabcontainer'))) {
+		                                                    taskobj.description = task.description;
+		                                                }
+		                                                bundleobj.tasks.push(taskobj);
+		                                            });
+	                                            }
+	                                            verobj.bundles.push(bundleobj);
+	                                        });
+                                        }
+                                        details.versions.push(verobj);
+                                    });
+
+                                    nest.bundles.setuserbundledetails(nestclient.session, bundlename, details)
+                                        .done(function(response) {
+                                            nestclient.clearUnsaved($('#bundlespage #tabcontainer'));
+                                        })
+                                        .fail(function(xhr) {
+                                            nestclient.unexpectedRequestError(xhr);
+                                        });
+                                });
+
+                            function collectEditVersionData() {
+                                let prevversion = $('#bundlespage #bundleeditordiv').attr('data-selected-version');
+                                if (prevversion != null) {
+                                    let versiondata = data.versionsbyversion[prevversion];
+                                    if (nestclient.hasUnsavedId('changelog-' + prevversion, $('#bundlespage #tabcontainer'))) {
+                                        versiondata.changelog = $('#bundlespage textarea#changelogtextarea').val();
+                                    }
+
+                                    data.bundlesbyversion[prevversion].forEach(function(bundle) {
+                                        if (nestclient.hasUnsavedId(bundle.bundleid + '#desc', $('#bundlespage #tabcontainer'))) {
+                                            bundle.description = $('#bundlespage textarea[data-desc-bundleid="' + bundle.bundleid + '"]').val();
+                                        }
+                                        if (nestclient.hasUnsavedId(bundle.bundleid + '#license', $('#bundlespage #tabcontainer'))) {
+                                            bundle.license_url = $('#bundlespage input[data-licenseurl-bundleid="' + bundle.bundleid + '"]').val();
+                                            bundle.license_abbreviation = $('#bundlespage input[data-licenseabbrev-bundleid="' + bundle.bundleid + '"]').val();
+                                        }
+                                        if(bundle.tasks != null){
+	                                        bundle.tasks.forEach(function(task) {
+	                                            if (nestclient.hasUnsavedId(bundle.bundleid + '#' + task.taskname + '#taskdesc', $('#bundlespage #tabcontainer'))) {
+	                                                task.description = $('#bundlespage textarea[data-desc-task-bundleid="' + bundle.bundleid + '"][data-desc-task="' + task.taskname + '"]').val();
+	                                            }
+	                                        });
+                                        }
+                                    });
+                                }
+                            };
+
+                            function loadManageVersion(version) {
+                                collectEditVersionData();
+                                if (version == null) {
+                                    $('#bundlespage #currentmanagedversion').text('none');
+                                    $('#bundlespage #bundleeditordiv').removeAttr('data-selected-version');
+                                    return;
+                                }
+
+                                $('#bundlespage #uploadedbundles').empty();
+                                let versiondata = data.versionsbyversion[version];
+                                let currentchangelog = '';
+                                if (versiondata == null) {
+                                    versiondata = {
+                                        "version": version,
+                                        "publishdate": null,
+                                        "changelog": null
+                                    };
+                                    data.versionsbyversion[version] = versiondata;
+                                    data.versions.push(versiondata);
+                                } else {
+                                    currentchangelog = versiondata.changelog;
+                                }
+
+                                let pubbutton = $('#bundlespage #manageversioncontent #publishversionbutton').off('click');
+                                if (versiondata.publishdate != null) {
+                                    $('#bundlespage #manageversioncontent #publisheddate').show()
+                                        .text(nest.utils.formatDate(new Date(versiondata.publishdate)));
+                                    $('#bundlespage #manageversioncontent #publisherdiv').hide();
+                                    pubbutton.hide();
+                                } else {
+                                    $('#bundlespage #manageversioncontent #publisherdiv').show();
+                                    $('#bundlespage #manageversioncontent #publisheddate').hide();
+                                    pubbutton
+                                        .show()
+                                        .on('click', function() {
+                                            $('#bundlespage #publishconfirmmodal #version').text(version);
+                                            $('#bundlespage #publishconfirmmodal #publishconfirmyes')
+                                                .off('click').on('click', function() {
+                                                    let publishbundles = [];
+                                                    data.bundlesbyversion[version].forEach(function(bundle) {
+                                                        publishbundles.push({
+                                                            "bundle": bundle.bundleid,
+                                                            "hash": bundle.sha256hash
+                                                        });
+                                                    });
+                                                    nest.bundles.publish(nestclient.session, bundlename, version, publishbundles)
+                                                        .done(function(response) {
+                                                            versiondata.publishdate = response.publishdate;
+                                                            $('#bundlespage #manageversioncontent #publisheddate').show()
+                                                                .text(nest.utils.formatDate(new Date(versiondata.publishdate)));
+                                                            $('#bundlespage #manageversioncontent #publisherdiv').hide();
+                                                            $('#bundlespage [data-bundle-deleter-part="' + data.bundlename + '-' + version + '"]').remove();
+                                                            pubbutton.hide();
+                                                            $('#bundlespage #uploadedbundles .upload-indicator').remove();
+                                                            nestclient.showtoast('Success! The version ' + version + ' has been published. Note that it may take a few hours for changes to be visible.', 5000);
+                                                        }).fail(function(xhr) {
+                                                            nestclient.unexpectedRequestError(xhr);
+                                                        });
+                                                });
+                                            $('#bundlespage #publishconfirmmodal').modal('show');
+                                        });
+                                }
+
+                                $('#bundlespage #manageversioncontent #changelogtextarea')
+                                    .val(currentchangelog)
+                                    .off('change').on('change', function() {
+                                        nestclient.addUnsaved($('#bundlespage #tabcontainer'), 'changelog-' + version);
+                                    });
+
+                                $('#bundlespage #currentmanagedversion').text(version);
+                                $('#bundlespage #bundleeditordiv').attr('data-selected-version', version);
+                                let taskscontent = $('#bundlespage #uploadedtasks').empty();
+
+                                let sortedbundles = data.bundlesbyversion[version].slice();
+                                sortedbundles.sort(function(a, b) {
+                                    return a.bundleid.replace('-' + version, '').localeCompare(b.bundleid.replace('-' + version, ''));
+                                });
+                                sortedbundles.forEach(function(bundle) {
+                              	  let bundledetailscontainerdiv = $(document.createElement('div'))
+                                        .addClass('uploaded-bundle-details')
+                                        .attr('data-bundleid', bundle.bundleid);
+                                    let bundledetailsdiv = $(document.createElement('div'))
+                                        .addClass('non-active-parent-hidden uploaded-bundle-details-content');
+                                    let detailstitle = $(document.createElement('h6'))
+                                        .text(bundle.bundleid.replace('-' + version, ''))
+                                        .addClass('after-arrow');
+                                        
+                                    let desctextarea = $('<textarea maxlength="300" placeholder="Short description about ' + bundle.bundleid + '..." style="width: 100%; min-height: 100px; max-height: 50vh;"></textarea>')
+                                        .val(bundle.description)
+                                        .attr('data-desc-bundleid', bundle.bundleid)
+                                        .attr('title', 'Bundle description');
+                                    let licensediv = $(document.createElement('div'))
+                                    	.append('Bundle license')
+                                    	.append('<div class="secondaryinfo small">Specify the license that applies to the bundle.<br/>See <a href="https://spdx.org/licenses/" title="SPDX License List">SPDX License List</a> for common licenses and abbreviations.</div>')
+                                    	.append(
+                                    		$(document.createElement('div'))
+                                    			.append(
+                                    				$(document.createElement('input'))
+                                    				.val(bundle.license_abbreviation == null ? "" : bundle.license_abbreviation)
+                                    				.css('width', '20%')
+                                    				.attr('type', 'text')
+                                    				.attr('title', 'License abbreviation')
+                                    				.attr('placeholder', 'Abbreviation')
+                                    				.attr('data-licenseabbrev-bundleid', bundle.bundleid)
+                                    				.off('change').on('change', function() {
+                                    					nestclient.addUnsaved($('#bundlespage #tabcontainer'), bundle.bundleid + '#license');
+                                    					detailstitle.addClass('active');
+                                            			bundledetailscontainerdiv.addClass('active');
+					                                })
+                                				)
+                                				.append(' ')
+                                				.append(
+                                    				$(document.createElement('input'))
+                                    				.val(bundle.license_url == null ? "" : bundle.license_url)
+                                    				.css('min-width', '50%')
+                                    				.css('max-width', '75%')
+                                    				.attr('type', 'url')
+                                    				.attr('title', 'License text URL')
+                                    				.attr('placeholder', 'License text URL')
+                                    				.attr('data-licenseurl-bundleid', bundle.bundleid)
+                                    				.off('change').on('change', function() {
+                                    					nestclient.addUnsaved($('#bundlespage #tabcontainer'), bundle.bundleid + '#license');
+                                    					detailstitle.addClass('active');
+                                            			bundledetailscontainerdiv.addClass('active');
+					                                })
+                                				)
+                                    	);
+                                    	
+                                    
+                                    if (nestclient.hasUnsavedId(bundle.bundleid + '#desc', $('#bundlespage #tabcontainer')) || nestclient.hasUnsavedId(bundle.bundleid + '#license', $('#bundlespage #tabcontainer'))){
+                                    	detailstitle.addClass('active');
+                            			bundledetailscontainerdiv.addClass('active');
+                                    }
+                                    if (bundle.sha256hash != null || bundle.md5hash != null) {
+                                        let uploadstatediv = $(document.createElement('div'))
+                                            .css('padding-left', '5px')
+                                            .css('margin-left', '5px');
+                                        let uploadstateinfo = $(document.createElement('div'))
+                                            .append(
+                                                $(document.createElement('div'))
+                                                .text('Upload state')
+                                            )
+                                            .append(uploadstatediv);
+                                        if (bundle.validationmessage != null) {
+                                            uploadstatediv
+                                                .append(
+                                                    $(document.createElement('div'))
+                                                    .text(bundle.validationmessage)
+                                                );
+                                        }
+                                        if(bundle.sha256hash != null){
+	                                        uploadstatediv
+	                                            .append(
+	                                                $(document.createElement('div'))
+	                                                .addClass('secondaryinfo')
+	                                                .text('SHA256: ' + bundle.sha256hash)
+	                                            )
+                                        }
+                                        if(bundle.md5hash != null){
+	                                        uploadstatediv
+	                                            .append(
+	                                                $(document.createElement('div'))
+	                                                .addClass('secondaryinfo')
+	                                                .text('MD5: ' + bundle.md5hash)
+	                                            )
+                                        }
+                                        bundledetailsdiv
+                                            .append(uploadstateinfo);
+                                        if (bundle.state == 'validation_failed') {
+                                            uploadstatediv.css('border-left', '2px solid var(--color-indicator-red)');
+                                        }
+                                    }
+                                    bundledetailsdiv
+                                        .append('Description ')
+                                        .append('<span class="secondaryinfo">(Max 300 characters)</span>')
+                                        .append('<div class="secondaryinfo small">Short description for this bundle is displayed on the package details page. For further explanation please use the documentation. </div>')
+                                        .append(desctextarea)
+                                        .append(licensediv);
+                                    nestclient.initMarkdownTextArea(desctextarea);
+                                    desctextarea.off('change').on('change', function() {
+                                        nestclient.addUnsaved($('#bundlespage #tabcontainer'), bundle.bundleid + '#desc');
+                                    });
+
+                                    if (versiondata.publishdate == null) {
+                                        //bundle is not yet published, so we allow deleting bundles
+                                        let deletepartdiv = $(document.createElement('div'));
+                                        deletepartdiv
+                                            .attr('data-bundle-deleter-part', data.bundlename + '-' + version)
+                                            .append('Delete bundle')
+                                            .append('<div class="secondaryinfo small">By deleting this uploaded bundle, it will no longer be part of this version release.</div>')
+                                            .append(
+                                                $(document.createElement('button'))
+                                                .text('Delete bundle...')
+                                                .css('margin', '3px')
+                                                .click(function() {
+                                                    $('#bundlespage #deletebundleconfirmmodal #bundlename').text(bundle.bundleid);
+                                                    $('#bundlespage #deletebundleconfirmmodal #deletebundleconfirmyes')
+                                                        .off('click').on('click', function() {
+                                                        	deleteBundle(bundle);
+                                                        });
+                                                    $('#bundlespage #deletebundleconfirmmodal').modal('show');
+                                                })
+                                            );
+
+                                        bundledetailsdiv.append(deletepartdiv);
+                                    }
+                                    if (bundle.state == 'validated') {
+                                        if (bundle.dependencies == null || bundle.dependencies.length == 0) {
+                                            bundledetailsdiv.append('<div class="secondaryinfo">This bundle has no dependencies.</div>')
+                                        } else {
+                                            let depscontainer = $(document.createElement('div'))
+                                                .append('Dependencies')
+                                                .append('<div class="secondaryinfo small">The following bundles are required by this bundle.</div>');
+
+                                            let depscontent = $(document.createElement('div'))
+                                                .css('padding-left', '10px');
+                                            depscontainer.append(depscontent);
+
+                                            bundle.dependencies.forEach(function(dep) {
+                                                let depbundlename = nest.bundleid.getbundlename(dep);
+                                                if (depbundlename != nest.bundleid.getbundlename(bundle.bundleid)) {
+                                                    depscontent.append(
+                                                        $(document.createElement('div'))
+                                                        .append(
+                                                            $(document.createElement('a'))
+                                                            .text(dep)
+                                                            .nestLinkify('/package/' + depbundlename + '?version=' + nest.bundleid.getversion(dep) + '&tab=bundles')
+                                                        )
+                                                    );
+                                                } else {
+                                                    let deplink = $(document.createElement('a'))
+                                                        .text(dep);
+                                                    depscontent.append(
+                                                        $(document.createElement('div'))
+                                                        .append(deplink)
+                                                    );
+                                                    if (nest.bundleid.getversion(dep) != nest.bundleid.getversion(bundle.bundleid)) {
+                                                        //only make it a link if the dependency is already published, meaning has a different version
+                                                        //dependencies can only be made to published bundles OR bundles in the same version
+                                                        deplink.nestLinkify('/package/' + depbundlename + '?version=' + nest.bundleid.getversion(dep));
+                                                    }
+                                                }
+                                            });
+                                            bundledetailsdiv.append(depscontainer);
+                                        }
+                                        $('#bundlespage #bulktaskops').empty();
+                                        if (bundle.tasks != null && bundle.tasks.length != 0) {
+                                            bundle.tasks.forEach(function(task) {
+                                                let taskqualifiers = bundle.bundleid.substring(bundle.bundleid.indexOf('-'));
+                                                let taskqualifiedname = task.taskname + taskqualifiers;
+                                                let taskdesctextarea = $('<textarea maxlength="300" placeholder="Short description about ' + taskqualifiedname + '..." style="width: 100%; min-height: 100px; max-height: 50vh;"></textarea>')
+                                                    .val(task.description)
+                                                    .attr('data-desc-task-bundleid', bundle.bundleid)
+                                                    .attr('data-desc-task', task.taskname)
+                                                    .attr('title', 'Task description');
+                                                let tasktitle = $(document.createElement('h6'));
+                                                let taskcontentdiv = $(document.createElement('div'));
+                                                let taskcontainer = $(document.createElement('div'))
+                                                    .attr('data-task-bundle', bundle.bundleid)
+                                                    .attr('data-task-name', task.taskname)
+                                                    .addClass('uploaded-task-details')
+                                                    .append(tasktitle);
+                                                    
+                                                if (nestclient.hasUnsavedId(bundle.bundleid + '#' + task.taskname + '#taskdesc', $('#bundlespage #tabcontainer'))) {
+                                                	taskcontainer.addClass('active');
+                                                	tasktitle.addClass('active');
+                                                }
+
+                                                tasktitle
+                                                    .addClass('after-arrow')
+                                                    .append(task.taskname)
+                                                    .append(taskqualifiers.replace('-' + version, ''))
+                                                    .append(
+                                                        $(document.createElement('span'))
+                                                        .addClass('secondaryinfo')
+                                                        .text('-' + version)
+                                                    )
+                                                    .css('cursor', 'pointer')
+                                                    .css('margin', '0')
+                                                    .css('padding-bottom', '5px')
+                                                    .css('padding-top', '5px')
+                                                    .click(function() {
+                                                        tasktitle.toggleClass('active');
+                                                        taskcontainer.toggleClass('active');
+                                                    });
+                                                taskcontentdiv
+                                                    .addClass('non-active-parent-hidden uploaded-task-details-content')
+                                                    .append(
+                                                        $(document.createElement('div'))
+                                                        .append('Description')
+                                                        .append('<span class="secondaryinfo"> (Max 300 characters)</span>')
+                                                    )
+                                                    .append('<div class="secondaryinfo small">Short description for this task is displayed on the package details page. For further explanation please use the documentation. </div>')
+                                                    .append(taskdesctextarea);
+                                                nestclient.initMarkdownTextArea(taskdesctextarea);
+                                                taskdesctextarea.off('change').on('change', function() {
+                                                    nestclient.addUnsaved($('#bundlespage #tabcontainer'), bundle.bundleid + '#' + task.taskname + '#taskdesc');
+                                                    tasktitle.addClass('active');
+                                                    taskcontainer.addClass('active');
+                                                });
+                                                taskcontainer.append(taskcontentdiv);
+                                                taskscontent.append(taskcontainer);
+                                            });
+                                            
+			                                let bulkopdiv = $(document.createElement('div'))
+			                                	.append('<div>Bulk task operations</div>'); 
+				                            let bulkopcount = 0;
+				                            if(data.versions.length > 1){
+					                            bulkopdiv.append('<div class="secondaryinfo small">Copy task descriptions from a previous version.</div>');
+				                        		bulkopdiv.append(`
+				                        			<button class="dropdown-toggle" title="Copy task information" id="dropdownCopyInfoLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 3px;">
+														Copy task informations from...
+													</button>
+				                        		`);
+				                        		let dropdowndiv = $(document.createElement('div'))
+				                        			.addClass('dropdown-menu')
+				                        			.attr('aria-labelledby', 'dropdownCopyInfoLink')
+				                        			.css('overflow-y', 'auto')
+				                        			.css('max-height', '50vh')
+				                        			.css('text-align', 'right');
+				                        		bulkopdiv.append(dropdowndiv);
+				                        		
+				                        		data.versions.forEach(function(ver){
+				                        			if(version != ver.version) {
+				                        				dropdowndiv.append(
+				                        					$(document.createElement('a'))
+				                        					.addClass('dropdown-item')
+				                        					.text(ver.version)
+				                        					.css('cursor', 'pointer')
+						                                    .click(function() {
+						                                    	data.bundlesbyversion[ver.version].forEach(function(copybundle){
+						                                    		//copy descriptions into the current version
+						                                    		let targetbundleid = nest.bundleid.withoutversion(copybundle.bundleid) + '-' + version;
+						                                    		let targetbundle = data.bundlesbybundleid[targetbundleid];
+						                                    		if(targetbundle == null) {
+						                                    			return;
+						                                    		}
+						                                    		copybundle.tasks.forEach(function(copytask){
+						                                    			targetbundle.tasks.forEach(function(targettask){
+						                                    				if(targettask.taskname != copytask.taskname) {
+						                                    					return;
+						                                    				}
+						                                    				targettask.description = copytask.description;
+						                                    				$('#bundlespage textarea[data-desc-task-bundleid="' + targetbundleid + '"][data-desc-task="' + targettask.taskname + '"]').val(targettask.description).trigger('change');
+						                                    			});
+						                                    		});
+						                                    	});
+						                                    })
+				                        				);
+				                        			}
+				                        		});
+				                        		++bulkopcount;
+			                        		}
+			                        		if(bulkopcount > 0){
+				                            	$('#bundlespage #bulktaskops').append(bulkopdiv);
+				                            }
+                                        }
+                                    }
+
+                                    if (versiondata.publishdate == null) {
+                                        //only include status markers if the version is not yet published
+                                        if (bundle.state == 'uploading') {
+                                            detailstitle
+                                                .prepend(`
+													<span title="Uploading"><svg class="upload-indicator indicator-blue" viewBox="204.974 272.881 19.951 19.97" width="19.951" height="19.97" xmlns="http://www.w3.org/2000/svg">
+													  <path d="M13,2.03C17.73,2.5 21.5,6.25 21.95,11C22.5,16.5 18.5,21.38 13,21.93V19.93C16.64,19.5 19.5,16.61 19.96,12.97C20.5,8.58 17.39,4.59 13,4.05V2.05L13,2.03M11,2.06V4.06C9.57,4.26 8.22,4.84 7.1,5.74L5.67,4.26C7.19,3 9.05,2.25 11,2.06M4.26,5.67L5.69,7.1C4.8,8.23 4.24,9.58 4.05,11H2.05C2.25,9.04 3,7.19 4.26,5.67M2.06,13H4.06C4.24,14.42 4.81,15.77 5.69,16.9L4.27,18.33C3.03,16.81 2.26,14.96 2.06,13M7.1,18.37C8.23,19.25 9.58,19.82 11,20V22C9.04,21.79 7.18,21 5.67,19.74L7.1,18.37M12,7.5L7.5,12H11V16H13V12H16.5L12,7.5Z" transform="matrix(1, 0, 0, 1, 202.923904, 270.850525)"/>
+													</svg></span>
+												`);
+                                        } else if (bundle.state == 'uploaded') {
+                                            detailstitle
+                                                .prepend(`
+													<span title="Validating"><svg class="upload-indicator indicator-blue" viewBox="240.486 271.007 19.951 19.97" width="19.951" height="19.97" xmlns="http://www.w3.org/2000/svg">
+													  <path d="M13,2.03V2.05L13,4.05C17.39,4.59 20.5,8.58 19.96,12.97C19.5,16.61 16.64,19.5 13,19.93V21.93C18.5,21.38 22.5,16.5 21.95,11C21.5,6.25 17.73,2.5 13,2.03M11,2.06C9.05,2.25 7.19,3 5.67,4.26L7.1,5.74C8.22,4.84 9.57,4.26 11,4.06V2.06M4.26,5.67C3,7.19 2.25,9.04 2.05,11H4.05C4.24,9.58 4.8,8.23 5.69,7.1L4.26,5.67M2.06,13C2.26,14.96 3.03,16.81 4.27,18.33L5.69,16.9C4.81,15.77 4.24,14.42 4.06,13H2.06M7.1,18.37L5.67,19.74C7.18,21 9.04,21.79 11,22V20C9.58,19.82 8.23,19.25 7.1,18.37M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" transform="matrix(1, 0, 0, 1, 238.435547, 268.976807)"/>
+													</svg></span>									
+												`);
+                                        } else if (bundle.state == 'validated') {
+                                            detailstitle
+                                                .prepend(`
+													<span title="Successful upload"><svg class="upload-indicator indicator-green" viewBox="240 240 20 20" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+													  <path d="M 250 240 C 244.477 240 240 244.477 240 250 C 240 255.523 244.477 260 250 260 C 255.523 260 260 255.523 260 250 C 260 244.477 255.523 240 250 240 Z"/>
+													  <path d="M 254.266 245.735 L 248.318 251.682 L 245.735 249.099 L 244.443 250.391 L 248.318 254.266 L 255.557 247.027 L 254.266 245.735" style="fill: rgb(255, 255, 255);"/>
+													</svg></span>
+												`);
+                                        } else if (bundle.state == 'validation_failed') {
+                                            detailstitle
+                                                .prepend(`
+													<span title="Validation failed"><svg class="upload-indicator indicator-red" viewBox="184.179 246.946 20 20" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+													  <path d="M 194.179 246.946 C 188.656 246.946 184.179 251.423 184.179 256.946 C 184.179 262.469 188.656 266.946 194.179 266.946 C 199.702 266.946 204.179 262.469 204.179 256.946 C 204.179 251.423 199.702 246.946 194.179 246.946 Z" style=""/>
+													  <path d="M 195.179 257.946 L 193.179 257.946 L 193.179 251.946 L 195.179 251.946 M 195.179 261.946 L 193.179 261.946 L 193.179 259.946 L 195.179 259.946" style="fill: rgb(255, 255, 255);"/>
+													</svg></span>									
+												`);
+                                        }
+                                    }
+                                    detailstitle
+                                        .append(
+                                            $(document.createElement('span'))
+                                            .addClass('secondaryinfo')
+                                            .text('-' + version)
+                                        )
+                                        .css('cursor', 'pointer')
+                                        .css('margin', '0')
+                                        .css('padding-bottom', '5px')
+                                        .css('padding-top', '5px')
+                                        .click(function() {
+                                            detailstitle.toggleClass('active');
+                                            bundledetailscontainerdiv.toggleClass('active');
+                                        });
+                                    bundledetailscontainerdiv.append(detailstitle);
+                                    bundledetailscontainerdiv.append(bundledetailsdiv);
+                                    $('#bundlespage #uploadedbundles').append(bundledetailscontainerdiv);
+                                    
+                                });
+                                $('#bundlespage #bulkbundleops').empty();
+                                //TODO remove the bulk bundle operations if the bundle is published, the delete button is removed, and there are no more available actions
+                                let bulkopdiv = $(document.createElement('div'))
+                                	.append('<div>Bulk bundle operations</div>'); 
+	                            let bulkopcount = 0;
+	                            if(data.versions.length > 1){
+	                        		let dropdowndiv = $(document.createElement('div'))
+	                        			.addClass('dropdown-menu')
+	                        			.attr('aria-labelledby', 'dropdownCopyInfoLink')
+	                        			.css('overflow-y', 'auto')
+	                        			.css('max-height', '50vh')
+	                        			.css('text-align', 'right');
+	                        		
+	                        		data.versions.forEach(function(ver){
+	                        			if(version != ver.version) {
+	                        				let bundlesbyver = data.bundlesbyversion[ver.version];
+	                        				if(bundlesbyver != null && bundlesbyver.length > 0){
+		                        				dropdowndiv.append(
+		                        					$(document.createElement('a'))
+		                        					.addClass('dropdown-item')
+		                        					.text(ver.version)
+		                        					.css('cursor', 'pointer')
+				                                    .click(function() {
+				                                    	bundlesbyver.forEach(function(copybundle){
+				                                    		//copy descriptions and license details into the current version
+				                                    		let targetbundle = data.bundlesbybundleid[nest.bundleid.withoutversion(copybundle.bundleid) + '-' + version];
+				                                    		if (targetbundle == null) {
+				                                    			//the bundle is not part of the current release
+				                                    			return;
+				                                    		}
+				                                    		targetbundle.description = copybundle.description;
+				                                    		targetbundle.license_abbreviation = copybundle.license_abbreviation;
+				                                    		targetbundle.license_url = copybundle.license_url;
+				                                    		
+				                                    		$('#bundlespage textarea[data-desc-bundleid="' + targetbundle.bundleid + '"]').val(targetbundle.description).trigger('change');
+				                                    		
+				                                    		$('#bundlespage input[data-licenseurl-bundleid="' + targetbundle.bundleid + '"]').val(targetbundle.license_url).trigger('change');
+	                                            			$('#bundlespage input[data-licenseabbrev-bundleid="' + targetbundle.bundleid + '"]').val(targetbundle.license_abbreviation).trigger('change');
+				                                    	});
+				                                    })
+		                        				);
+	                        				}
+	                        			}
+	                        		});
+	                        		if (!dropdowndiv.is(':empty')){
+	                        			bulkopdiv.append('<div class="secondaryinfo small">Copy bundle descriptions and licensing information from a previous version.</div>');
+		                        		bulkopdiv.append(`
+		                        			<button class="dropdown-toggle" title="Copy bundle information" id="dropdownCopyInfoLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 3px;">
+												Copy bundle informations from...
+											</button>
+		                        		`);
+		                        		bulkopdiv.append(dropdowndiv);
+		                        		++bulkopcount;
+									}
+                        		}
+                        		if (versiondata.publishdate == null) {
+                        			++bulkopcount;
+                        			bulkopdiv.append(
+                        				$(document.createElement('div'))
+                        				.attr('data-bundle-deleter-part', data.bundlename + '-' + version)
+                        				.append('<div class="secondaryinfo small">Delete all uploaded bundles for this version.</div>')
+                        				.append(
+                        					$(document.createElement('button'))
+	                                        .text('Delete all uploaded bundles...')
+	                                        .css('margin', '3px')
+	                                        .click(function() {
+	                                        	$('#bundlespage #deleteallbundlesconfirmmodal #bundlenameversion').text(bundlename + '-' + versiondata.version);
+                                                $('#bundlespage #deleteallbundlesconfirmmodal #deleteallbundlesconfirmyes')
+                                                    .off('click').on('click', function() {
+                                                    	data.bundlesbyversion[version].forEach(function(uploadedbundle){
+                                                    		deleteBundle(uploadedbundle);
+                                                    	});
+                                                    });
+                                                $('#bundlespage #deleteallbundlesconfirmmodal').modal('show');
+	                                        })
+                        				)
+                        			);
+                        		}
+                        		if(bulkopcount > 0){
+	                            	$('#bundlespage #bulkbundleops').append(bulkopdiv);
+	                            }
+                            };
+
+                            let manverlist = $('#bundlespage #manageversionslist').empty();
+                            data.presentversionnames.forEach(function(ver) {
+                                manverlist.append(
+                                    $(document.createElement('a'))
+                                    .text(ver)
+                                    .addClass('dropdown-item')
+                                    .css('cursor', 'pointer')
+                                    .click(function() {
+                                        loadManageVersion(ver);
+                                    })
+                                );
+                            });
+                            let currentmanageversion = null;
+                            if (data.presentversionnames.length > 0) {
+                                if (!data.presentversionnames.includes(currentmanageversion)) {
+                                    currentmanageversion = data.presentversionnames[0];
+                                }
+                                $('#bundlespage #manageversioncontent').show();
+                                loadManageVersion(currentmanageversion);
+                            } else {
+                                $('#bundlespage #manageversioncontent').hide();
+                            }
+
+                            $('#bundlespage #detailscontent').show();
+
+                        });
+                    }).fail(function(xhr) {
+                        nestclient.unexpectedRequestError(xhr);
+                    }).always(function() {
+                        $('#bundlespage #bundleeditordiv>.lds-ellipsis[data-bundlename="' + bundlename + '"]').remove();
+                        $('#bundlespage #noselectedbundleplaceholder').removeClass('loading');
+                    });
+
+            }, $('#bundlespage #tabcontainer'));
+        };
+        nest.bundles.getclaimed(nestclient.session)
+            .done(function(clres) {
+                $('#bundlespage #bundleeditordiv>.lds-ellipsis').remove();
+                let loadbundle = starturl.searchParams.get('bundlename');
+                let listul = $("#bundlespage #bundlelist").empty();
+
+                clres.bundles.sort();
+
+                clres.bundles.forEach(function(entry) {
+                    listul.append(
+                        $(document.createElement('li'))
+                        .attr({
+                            "data-bundlename": entry,
+                            "title": "Package " + entry
+                        })
+                        .append(
+                            $(document.createElement('a'))
+                            .attr({
+                                href: starturl.pathname + '?' + $.param({
+                                    bundlename: entry
+                                })
+                            })
+                            .click(function(e) {
+                                if (e.ctrlKey || e.shiftKey) {
+                                    //is ctrl + click
+                                    return true;
+                                }
+                                loadPackageDetails(entry);
+                                return false;
+                            })
+                            .text(entry)
+                        )
+                    );
+                });
+
+                $('#bundlespage #bundlelistcontainer').show();
+                $('#bundlespage #newbundlelink')
+                    .off('click').on('click', function() {
+                        let edita = $(document.createElement('a'));
+                        let listli = $(document.createElement('li'));
+                        $('#bundlespage #bundlenameaddinfo').addClass('active');
+                        let endedithandler = function() {
+                            //the end handle can be called multiple times when pressed enter, and lost focus
+                            //avoid installing handlers and other stuff twice
+
+                            $('#bundlespage #bundlenameaddinfo').removeClass('active');
+
+                            if (listli.attr('data-bundlename') != null) {
+                                return;
+                            }
+
+                            let nbundleid = edita.text().toLowerCase();
+                            if (nbundleid.length == 0) {
+                                //cancelled
+                                listli.remove();
+                                return;
+                            }
+                            if ($('#bundlespage #bundlelist li[data-bundlename="' + nbundleid + '"]').length > 0) {
+                                //already contains bundle with the id
+                                listli.remove();
+                                if (!nestclient.hasUnsaved($('#bundlespage'))) {
+                                    loadPackageDetails(nbundleid);
+                                } else {
+                                    nestclient.showtoast('You already own this package: ' + nbundleid, 2000);
+                                }
+                                return;
+                            }
+
+                            listli.attr({
+                                "data-bundlename": nbundleid
+                            });
+
+                            $('#bundlespage #bundlelist li').sort(function(l, r) {
+                                return $(l).attr('data-bundlename').localeCompare($(r).attr('data-bundlename'));
+                            }).appendTo($('#bundlespage #bundlelist'));
+
+                            edita.removeAttr('contentEditable')
+                                .attr({
+                                    href: starturl.pathname + '?' + $.param({
+                                        bundlename: nbundleid
+                                    })
+                                })
+                                .off('click').on('click', function(e) {
+                                    if (e.ctrlKey || e.shiftKey) {
+                                        //is ctrl + click
+                                        return true;
+                                    }
+                                    loadPackageDetails(nbundleid);
+                                    return false;
+                                });
+                            edita.text(nbundleid);
+
+                            nest.bundles.claim(nestclient.session, nbundleid)
+                                .done(function(response) {
+                                    if (!nestclient.hasUnsaved($('#bundlespage'))) {
+                                        loadPackageDetails(nbundleid);
+                                    }
+                                }).fail(function(xhr) {
+                                    if (nestclient.handleGenericRequestErrors(xhr)) {
+                                        return;
+                                    }
+                                    let json = xhr.responseJSON;
+                                    switch (json.error) {
+                                        case "invalid_parameter":
+                                            nestclient.showtoast('Invalid package identifier: ' + nbundleid + (json.message == null ? "" : ` (${ json.message })`), 5000);
+                                            break;
+                                        case "already_claimed":
+                                            nestclient.showtoast('Package is already claimed: ' + nbundleid + (json.message == null ? "" : ` (${ json.message })`), 5000);
+                                            break;
+                                        case "unavailable":
+                                            nestclient.showtoast('Package name is not available: ' + nbundleid + (json.message == null ? "" : ` (${ json.message })`), 5000);
+                                            break;
+                                        case "user_not_verified":
+                                        	nestclient.showtoast('Please verify your e-mail address to create a new package.', 5000);
+                                        	break;
+                                        case "name_restricted":
+                                        	$('#bundlespage #restrictedpackagenamemodal #packagename').text(nbundleid);
+                                        	$('#bundlespage #restrictedpackagenamemodal').modal('show');
+                                        	break;
+                                        default:
+                                            nestclient.showtoast('Unexpected error: ' + json.error + (json.message == null ? "" : ` (${ json.message })`), 5000);
+                                            break;
+                                    }
+                                    listli.remove();
+                                });
+                        };
+
+                        $("#bundlespage #bundlelist")
+                            .append(
+                                listli
+                                .append(
+                                    edita
+                                    .attr({
+                                        contentEditable: true,
+                                        spellcheck: false,
+                                        placeholder: 'Package name'
+                                    })
+                                    .addClass('clearingeditable')
+                                    .addClass('content-editable-placeholdable')
+                                    .keypress(function(event) {
+                                        if (event.which == 13 || event.keyCode == 13) {
+                                            endedithandler();
+                                            return false;
+                                        }
+                                    })
+                                    .css('white-space', 'nowrap')
+                                    .css('outline', 'none')
+                                    .focusout(endedithandler)
+                                )
+                            )
+                        edita.focus();
+                    });
+                if (loadbundle == null || !clres.bundles.includes(loadbundle)) {
+                    if (clres.bundles.length == 0) {
+                        //no bundle to load
+                    } else {
+                        loadbundle = clres.bundles[0];
+                    }
+                }
+                if (loadbundle != null) {
+                    loadPackageDetails(loadbundle);
+                }
+            }).fail(function(xhr) {
+                nestclient.unexpectedRequestError(xhr);
+            });
+    };
+
+    nestclient.userinfo.ready(function() {
+    	let redirected = nestclient.initLoginRequiredPage(starturl, function(){
+    		let currenturl = new URL(document.location);
+    		nestclient.requireLoginRedirectUrl(currenturl);
+    	});
+        if (!redirected) {
+            return;
+        }
+        $(document).ready(function() {
+            $('#bundlespage #apikeyscontainer #apikeyscopylink')
+                .tooltip()
+                .mouseleave(function() {
+                    $(this).attr('data-original-title', 'Copy').tooltip('hide');
+                })
+                .on('click', function() {
+                    $(this).tooltip('hide')
+                        .attr('data-original-title', 'Copied!')
+                        .tooltip('show');
+
+                    function listener(e) {
+                        let str = $('#bundlespage #apikeyscontent').text();
+                        e.clipboardData.setData("text/html", str);
+                        e.clipboardData.setData("text/plain", str);
+                        e.preventDefault();
+                    }
+
+                    document.addEventListener("copy", listener);
+                    document.execCommand("copy");
+                    document.removeEventListener("copy", listener);
+                });
+            claimrefreshbundles();
+        });
+    });
+    document.title = 'Manage packages' + nestclient.site_title_append;
+
+    nestclient.initTabs($('#bundlespage #detailstabbedviewer'));
+    nestclient.activateTab($('#bundlespage #detailstabbedviewer>.tabs>.tab[data-tab-content-id="detailscontainer"]'));
+
+})();
+</script>
+</html>

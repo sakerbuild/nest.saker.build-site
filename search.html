@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<div id="searchpage" class="contentcontainerpadded">
+	<div class="container" >
+		<div class="text-center">
+			<span class="page-subsection-title">
+				Search for saker.nest packages
+			</span>
+		</div>
+		<div class="row">
+			<div class="offset-1 col-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6" style="margin-bottom: 20px;">
+				<form id="searchform">
+					<input id="searchinput" title="Search packages based on keywords and #tags" type="search" style="width: 100%;" placeholder="Search">
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div id="searchresultsdiv" class="emptyplaceholded col-sm-12 offset-md-1 col-md-10 offset-lg-2 col-lg-8" 
+				style="position: relative; text-align: center;" data-empty-placeholder="No more packages found.">
+				<div style="min-height: 50vh;">
+					<div class="lds-ellipsis" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto;"><div></div><div></div><div></div><div></div></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div id="navigatesection" style="position: relative; width: 100%; margin-top: 10px;">
+				<a id="previous" title="Previous page" class="searchendlink buttonstyled" style="position: absolute; right: 50%; margin-right: 3px; min-width: 90px;">Previous</a>
+				<a id="next" title="Next page" class="searchendlink buttonstyled" style="margin-left: calc(50% + 3px); min-width: 90px;">Next</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+(function(){
+	
+	document.title = 'Search' + nestclient.site_title_append;
+	
+	$(document).ready(function(){
+		function executeSearch(phrase, offset, count, addhistory){
+			$('#searchpage #searchinput').val(phrase);
+			let jqresdiv = $('#searchresultsdiv');
+			jqresdiv.empty().append(
+				$(document.createElement('div'))
+				.css('min-height', '50vh')
+				.append(nestclient.loadingPlaceholderHtml)
+			);
+			$('#searchpage #navigatesection').hide();
+			$('#searchpage #navigatesection .searchendlink').removeClass('searchhasnext');
+			nest.search.searchForDiv(jqresdiv, phrase, offset, count)
+			.done(function(response){
+				if(addhistory !== false){
+					nestclient.pushHistoryURL(new URL("/search", window.location.origin).href + '?' + $.param({
+						"offset": offset,
+						"count": count,
+						"phrase": phrase
+					}));
+				}
+				
+				$('#searchpage .searchresulttag')
+				.off('click')
+				.on('click', function(e){
+					if (e.ctrlKey || e.shiftKey) {
+				        //is special click
+				        return true;
+				    }
+				    executeSearch($(this).attr('data-tag'));
+				    return false;
+				});
+				
+				$('#searchpage #navigatesection').show();
+				let hasprev = response.offset > 0;
+				let hasnext = response.result.length >= response.requested;
+				if(hasprev) {
+					let noffset = response.offset - response.requested;
+					if (noffset < 0){
+						noffset = 0;
+					}
+					let href = '/search?' + $.param({
+						"offset": noffset,
+						"count": count,
+						"phrase": phrase
+					});
+					$('#searchpage #navigatesection #previous')
+					.addClass('searchhasnext')
+					.off('click').on('click', function(){
+						executeSearch(phrase, noffset, response.requested);
+						$(this).blur();
+						return false;
+					})
+					.attr({
+						"href": href
+					});
+				}
+				if(hasnext){
+					let noffset = response.offset + response.result.length;
+					let href = '/search?' + $.param({
+						"offset": noffset,
+						"count": count,
+						"phrase": phrase
+					});
+					$('#searchpage #navigatesection #next')
+					.addClass('searchhasnext')
+					.off('click').on('click', function(){
+						executeSearch(phrase, noffset, response.requested);
+						$(this).blur();
+						return false;
+					})
+					.attr({
+						"href": href
+					});
+				}
+			});
+		};
+		
+		let url = (new URL(document.location));
+		let phrase = url.searchParams.get('phrase');
+		let offset = url.searchParams.get('offset');
+		let count = url.searchParams.get('count');
+		
+		executeSearch(phrase, offset, count, false);
+		
+		$('#searchform').submit(function(){
+			executeSearch($('#searchinput').val(), null, null);
+			return false;
+		});
+	});
+	
+})();
+</script>
+</html>

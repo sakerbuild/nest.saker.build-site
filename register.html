@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<div class="container contentcontainerpadded">
+	<div class="usersettings row userinfo-not-loggedin-visible" data-login-redirect="/">
+		<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+			<div class="site-note">
+				<p>The saker.nest repository is in early-access. During this period, the repository is in read-only mode for the general public. The period lasts until we determine the exact legal matters related to the terms of use and privacy policy of the service.</p>
+				<p>During early-access, registration is disabled. You can request an account by writing an e-mail to <a href="mailto:support@saker.build">support@saker.build</a>.</p>
+				<p>Note that you can still use the repository to build your software, registration is only required if you are developing packages or build tasks for the saker.nest repository.</p>
+			</div>
+			<h1>Register new account</h1>
+			<p>You can upload and manage saker.nest packages after registration. If you don't plan on uploading bundles, you can use the repository without registration.</p>
+			<form id="registerform">
+				<div class="ttable" style="width: 100%">
+					<div class="trow">
+						<div class="tcell tlabel">Username</div>
+						<div class="tcell">
+							<input disabled type="text" name="username" placeholder="Username" autocomplete="username" required>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell tlabel">E-mail</div>
+						<div class="tcell">
+							<input disabled type="email" name="email" placeholder="E-mail" required>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell tlabel">Password</div>
+						<div class="tcell">
+							<div class="passwordcell">
+								<input disabled type="password" name="password" autocomplete="new-password" placeholder="Password" required>
+								<div class="passwordmasker" ></div>
+							</div>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell"></div>
+						<div class="tcell">
+							<label disabled for="termsandconditions">
+								<input disabled id="termsandconditions" type="checkbox" required>
+								I accept the <a href="/terms" title="Terms of service">terms of service</a> and the <a href="/privacy" title="Privacy policy">privacy policy</a>.
+							</label>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell"></div>
+						<div class="tcell" align="right">
+							<a id="loginlink" href="/login" style="text-align: left;">Login</a>
+							<button disabled style="margin-left: 10px;" type="submit">Register</button>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell"></div>
+						<div class="tcell" align="right" style="padding-bottom: 0px;">
+							<a id="forgotpasswordlink" href="/forgot/password">Forgot password?</a>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell"></div>
+						<div class="tcell" align="right" style="padding-bottom: 10px;">
+							<a id="forgotusernamelink" href="/forgot/username">Forgot username?</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	document.title = "Register" + nestclient.site_title_append;
+	nestclient.userinfo.ready(function(){
+		if(nestclient.userinfo.loggedin){
+			nestclient.navigateToNoUnsaved('/');
+			return;
+		}
+		$(document).ready(function(){
+			$('div.passwordmasker').replaceWith($(nestclient.passwordmarkerhtml));
+			if(nestclient.userinfo.loggedin){
+				nestclient.navigateToNoUnsaved('/');
+				return;
+			}
+			
+			$('#registerform a[href="/terms"]').nestLinkify();
+			$('#registerform #loginlink').nestLinkify();
+			$('#registerform #forgotpasswordlink').nestLinkify();
+			$('#registerform #forgotusernamelink').nestLinkify();
+			nestclient.createpasswordmasker($('#registerform .passwordmasker'));
+			$("#registerform").submit(function(e){
+			    let form = $(this);
+			    let uname = form.find('input[name="username"]').val();
+			    let email= form.find('input[name="email"]').val();
+			    let pass = form.find('input[name="password"]').val();
+			    let terms = form.find('input#termsandconditions').prop('checked');
+			    e.preventDefault();
+			    nest.user.register(uname, email, pass, terms)
+				    .done(function(response) {
+				    	nestclient.showtoast('Success! Check your e-mail to verify your account.', 5000);
+				    }).fail(function(xhr){
+				    	if (nestclient.handleGenericRequestErrors(xhr)) {
+                            return;
+                        }
+                        let json = xhr.responseJSON;
+                        switch (json.error) {
+                            case "email_already_registered":
+                            	nestclient.showtoast('An account for the e-mail is already registered.', 5000);
+                            	break;
+                            default:
+                                nestclient.unexpectedRequestError(xhr);
+                                break;
+                        }
+				    });
+			    return false;
+			});
+		});
+	});
+</script>
+</html>

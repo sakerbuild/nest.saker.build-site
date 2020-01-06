@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<div id="verifypage" class="container contentcontainerpadded verify-inprogress">
+	<div class="row">
+		<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+			<h1>Verifying e-mail address</h1>
+			<p id="verify-message">Please wait while we process your request...</p>
+			<div id="verify-loading" style="position: relative; min-height: 100px;">
+			</div>
+			<ul id="verify-fail-links">
+				Go to
+				<li><a href="/">Home</a></li>
+				<li class="userinfo-not-loggedin-visible"><a href="/login">Login</a></li>
+				<li class="userinfo-not-loggedin-visible"><a href="/register">Register</a></li>
+				<li class="userinfo-loggedin-visible"><a href="/user/settings">User settings</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+(function() {
+	document.title = 'Verify e-mail' + nestclient.site_title_append;
+	let url = (new URL(document.location));
+	let ver = url.searchParams.get("verification");
+	if(ver != null){
+		$('#verifypage #verify-loading').append(nestclient.loadingPlaceholderHtml);
+		
+		nest.user.verify(ver).done(function(response) {
+			nestclient.setSession(null);
+			nestclient.updatelogininfo(null);
+			$('#verifypage #verify-loading').empty();
+			let loginpagelink = $(document.createElement('a'))
+						.text('Login page')
+						.nestLinkify('/login')
+						.addClass('data-auto-redirect');
+			loginpagelink.click(function(){
+				if (!e.ctrlKey && !e.shiftKey) {
+					loginpagelink.removeClass('data-auto-redirect');
+				}
+		        //else special click
+			});
+			$('#verifypage #verify-message')
+				.text("Successful verification. You'll be redirected to the ")
+				.append(loginpagelink)
+				.append(' in 5 seconds.');
+			setTimeout(function() { 
+				if(loginpagelink.hasClass('data-auto-redirect') && $.contains(window.document, loginpagelink)) {
+					nestclient.navigateToNoUnsaved('/login');
+				}
+			}, 5000);
+			$('#verifypage').removeClass('verify-inprogress');
+			$('#verifypage').addClass('verify-successful');
+		}).fail(function(xhr){
+			nestclient.unexpectedRequestError(xhr);
+			$('#verifypage #verify-loading').empty();
+			$('#verifypage #verify-message').text("Verification failed. The link you followed may have been expired or already used.");
+			$('#verifypage').removeClass('verify-inprogress');
+			$('#verifypage').addClass('verify-failed');
+			$('#verifypage #verify-fail-links a').nestLinkify();
+		});
+		return;
+	}
+	nestclient.loadContent("/404_content.html", url);
+})();
+</script>
+</html>

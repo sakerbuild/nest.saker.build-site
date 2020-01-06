@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<div class="userinfo-loggedin-visible container contentcontainerpadded">
+	<div class="usersettings row">
+		<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+			<form id="settingsform">
+				<h1>User settings</h1>
+				<div class="ttable" style="width: 100%">
+					<div class="trow">
+						<div class="tcell tlabel">Username</div>
+						<div class="tcell">
+							<div id="usernamediv"></div>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell">
+							<div class="tlabel">
+							E-mail</div>
+							<div class="notverified-visible secondaryinfo small">(Last verified)</div>
+						</div>
+						<div class="tcell">
+							<input type="email" name="email" placeholder="E-mail" autocomplete="email">
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell tlabel">New password</div>
+						<div class="tcell">
+							<div class="passwordcell">
+								<input type="password" name="newpassword" placeholder="New password" autocomplete="new-password">
+								<div class="passwordmasker" ></div>
+							</div>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell tlabel" style="padding-top: 30px;">Current password</div>
+						<div class="tcell">
+							<div class="passwordcell">
+								<input type="password" name="password" placeholder="Current password" autocomplete="off" required>
+								<div class="passwordmasker" ></div>
+							</div>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell">
+						</div>
+						<div class="tcell" align="right">
+							<button type="submit">Update settings</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="usersettingsverification" class="row notverified-visible">
+		<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6" style="margin-top: 20px;">
+			Your account is not yet verified. Check your e-mail for the verification link. <br/>
+			<button id="resendverificationlink" type="button" style="margin: 10px 0 10px 0;">Resend verification mail</button>
+			<br/>
+			<span class="secondaryinfo">
+				You can still modify your e-mail address. However, while being unverified, any password recovery and username reminder requests 
+				will be sent to your last verified e-mail. (That is the E-mail field of the form.)
+			</span>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="updateconfirmmodal" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Update info</h4>
+				</div>
+				
+				<div class="modal-body">
+					<div id="emailupdateinfo" style="margin: 10px;">
+						Updating your e-mail will reset your account to the unverified state. 
+						You won't be able to make modifications to your uploaded content until you verify your new e-mail address. <br/>
+						Any password recovery and username reminder requests will be sent to your last verified e-mail.
+					</div>
+					<div style="margin: 10px;">
+						Are you sure you want to continue?
+					</div>
+				</div>
+				
+				<div class="modal-footer">
+					<button id="updateconfirmyes" type="button"  data-dismiss="modal">Yes</button>
+					<button type="button" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="nochangemodal" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Update info</h4>
+				</div>
+				
+				<div class="modal-body">
+					Your user information is up to date, nothing was changed.
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+(function() {
+	document.title = "User settings" + nestclient.site_title_append;
+	let starturl = (new URL(document.location));
+	
+	nestclient.userinfo.ready(function(){
+		if(!nestclient.initLoginRequiredPage(starturl)){
+			return;
+		}
+		
+		$(document).ready(function(){
+			$('div.passwordmasker').replaceWith($(nestclient.passwordmarkerhtml));
+			nestclient.createpasswordmasker($('.passwordmasker'));
+			let startusername = nestclient.userinfo.username;
+			let startemail = nestclient.userinfo.email;
+			$('#settingsform #usernamediv').text(startusername);
+			$('#settingsform input[name="email"]').val(startemail);
+			$("#settingsform").submit(function(e){
+			    let form = $(this);
+			    let email = form.find('input[name="email"]').val();
+			    
+			    let pass = form.find('input[name="password"]').val();
+			    let newpass = form.find('input[name="newpassword"]').val();
+			    
+			    let isverifieduser = document.body.classList.contains('userverified');
+			    
+			    let emailchanged = email != '' && (!isverifieduser || email != startemail); 
+			    let passwordchanged = newpass != '';
+			    
+			    if(emailchanged){
+					function modifySettingsWithEmail() {
+			    		nest.user.modifysettings(nestclient.session, pass, emailchanged ? email : null, passwordchanged ? newpass : null)
+			    		.done(function(response){
+			    			nestclient.showtoast('Success! Check your e-mail to verify for verification.', 5000);
+			    		}).fail(function(xhr){
+			    			nestclient.unexpectedRequestError(xhr);
+			    		});
+					}
+		    		
+		    		if (isverifieduser) {
+				    	$('#updateconfirmyes').off('click').on('click', function(){
+				    		modifySettingsWithEmail();
+				    	});
+				    	$('#updateconfirmmodal').modal('show');
+			    	} else {
+			   			modifySettingsWithEmail();
+			   		}
+			    }else{
+			    	//email not changed
+			    	if(passwordchanged){
+			    		//only the password to change
+			    		nest.user.modifysettings(nestclient.session, pass, null, newpass)
+			    		.done(function(response){
+			    			nestclient.showtoast('Success! Your password has been changed.', 5000);
+			    		}).fail(function(xhr){
+			    			nestclient.unexpectedRequestError(xhr);
+			    		});
+			    	}else{
+			    		//nothing to change
+			    		$('#nochangemodal').modal('show');
+			    	}
+			    }
+			    
+			    e.preventDefault();
+			    return false;
+			});
+			$('#usersettingsverification #resendverificationlink').click(function(){
+				nestclient.resendVerification();
+			});
+		});
+	});
+	
+	
+})();
+</script>
+</html>

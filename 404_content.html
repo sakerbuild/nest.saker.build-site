@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<div id="notfoundpage" class="container contentcontainerpadded">
+	<div class="row">
+		<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+			<h1>404: Not Found</h1>
+			<p>The page you requested was not found.</p>
+			<div id="errorcontainer">
+				<p id="details"></p>
+				<ul>
+					Go to
+					<li><a href="/">Home</a></li>
+					<li><a href="/search">Search</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	document.title = '404' + nestclient.site_title_append;
+	$('#notfoundpage #errorcontainer a').nestLinkify();
+</script>
+</html>

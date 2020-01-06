@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<div id="domainpage" class="container contentcontainerpadded">
+	<div class="usersettings row">
+		<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+			<h1>Repository API domain</h1>
+			<p>
+			This page allows changing the URL against which the site issues the API requests.
+			Changing it will result in accessing different contents on different servers throughout the websit.			
+			<p>
+			Set the domain to empty value to reset it back to the defaults. The currently used domain will be displayed
+			on the navigation bar if it differs from the default.
+			<p>
+			This feature can be mainly used for testing purposes, where the main site can be used to access test servers.
+			<p>
+			If you're running your own repository instance, the site can be used to access that as well.
+			<p>
+			The default API domain is: <span id="defaultapidomain"></span>
+			<p class="secondaryinfo small">
+			It is recommended that the specified API domain doesn't end with a slash ('/') character.
+			</p>
+			<form id="domainform">
+				<div class="ttable" style="width: 100%">
+					<div class="trow">
+						<div class="tcell tlabel">API domain</div>
+						<div class="tcell">
+							<input id="domaininput" type="text" placeholder="API domain" autocomplete="off">
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell">
+						</div>
+						<div class="tcell" align="right">
+							<button type="submit">Set domain</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+(function() {
+
+	let starturl = (new URL(document.location));
+	document.title = "API domain" + nestclient.site_title_append;
+	$(document).ready(function(){
+		$('#domainpage #defaultapidomain').text(nest.DEFAULT_API_DOMAIN);
+		$('#domainform #domaininput').val(nest.apidomain);
+		$("#domainform").submit(function(e){
+		    var form = $(this);
+		    var napidomain = form.find('#domaininput').val();
+		    e.preventDefault();
+		    nestclient.setAPIDomain(napidomain);
+		    return false;
+		});
+	});
+
+})();
+</script>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<div class="container contentcontainerpadded">
+	<div id="forgotusernamepage" class="usersettings row userinfo-not-loggedin-visible" data-login-redirect="/">
+		<div class="col-sm-12 offset-md-3 col-md-6 offset-lg-3 col-lg-6">
+			<form id="forgotpassform">
+				<h1>Forgot username</h1>
+				<div style="margin-bottom: 10px;">
+					Enter your registered e-mail address and the corresponding username will be sent to it.
+				</div>
+				<div class="ttable" style="width: 100%">
+					<div class="trow">
+						<div class="tcell tlabel">E-mail</div>
+						<div class="tcell">
+							<input type="email" name="email" placeholder="E-mail" required>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell">
+						</div>
+						<div class="tcell" align="right">
+							<a id="registerlink" href="/register" style="text-align: left;">Register new account</a>
+							<button type="submit" style="margin-left: 10px;">Submit</button>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell">
+						</div>
+						<div class="tcell" align="right" style="padding-bottom: 0px;">
+							<a id="forgotpasswordlink" href="#">Forgot password?</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	document.title = "Forgot username" + nestclient.site_title_append;
+	nestclient.userinfo.ready(function(){
+		$(document).ready(function() {
+			if(nestclient.userinfo.loggedin){
+				nestclient.navigateToNoUnsaved('/');
+				return;
+			}
+			$('#forgotusernamepage #forgotpasswordlink').nestLinkify('/forgot/password');
+			$('#forgotusernamepage #registerlink').nestLinkify('/register');
+			$("#forgotusernamepage #forgotpassform").submit(function(e){
+			    var form = $(this);
+			    var email = form.find('input[name="email"]').val();
+			    e.preventDefault();
+			    nest.user.forgotusername(nestclient.session, email)
+				.done(function(response){
+					nestclient.showtoast('Success! An e-mail has been sent with your username if an account was registered with it.', 5000);
+			    }).fail(function(xhr){
+			    	nestclient.unexpectedRequestError(xhr);
+			    });
+			    return false;
+			});
+		});
+	});
+</script>
+</html>

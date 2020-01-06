@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<div class="container contentcontainerpadded">
+	<div id="loginpage" class="usersettings userinfo-not-loggedin-visible row">
+		<div class="col-sm-12 offset-md-3 col-md-6 offset-lg-4 col-lg-4">
+			<form id="loginform">
+				<h1>Login</h1>
+				<div class="ttable" style="width: 100%">
+					<div class="trow">
+						<div class="tcell tlabel">Username</div>
+						<div class="tcell">
+							<input type="text" name="username" placeholder="Username" autocomplete="username" required>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell tlabel">Password</div>
+						<div class="tcell">
+							<div class="passwordcell">
+								<input type="password" name="password" placeholder="Password" autocomplete="current-password" required>
+								<div class="passwordmasker" ></div>
+							</div>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell">
+						</div>
+						<div class="tcell" align="right">
+							<a id="registerlink" href="/register" style="text-align: left;">Register new account</a>
+							<button type="submit" style="margin-left: 10px;">Log in</button>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell">
+						</div>
+						<div class="tcell" align="right" style="padding-bottom: 0px;">
+							<a id="forgotpasswordlink" href="/forgot/password">Forgot password?</a>
+						</div>
+					</div>
+					<div class="trow">
+						<div class="tcell">
+						</div>
+						<div class="tcell" align="right" style="padding-bottom: 10px;">
+							<a id="forgotusernamelink" href="/forgot/username">Forgot username?</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	document.title = "Login" + nestclient.site_title_append;
+	nestclient.userinfo.ready(function(){
+		$(document).ready(function() {
+			let params = (new URL(document.location)).searchParams;
+			let redirect = params.get('redirect');
+			if(redirect == null){
+				redirect = '/';
+			}
+			if(!redirect.startsWith('/')){
+				redirect = '/' + redirect;
+			}
+			$('#loginpage').attr({
+				'data-login-redirect': redirect
+			});
+			if(nestclient.userinfo.loggedin){
+				nestclient.navigateToNoUnsaved(redirect);
+				return;
+			}
+			$('div.passwordmasker').replaceWith($(nestclient.passwordmarkerhtml));
+			nestclient.createpasswordmasker($('#loginpage .passwordmasker'));
+			$('#loginpage #loginform #registerlink').nestLinkify();
+			$('#loginpage #loginform #forgotpasswordlink').nestLinkify();
+			$('#loginpage #loginform #forgotusernamelink').nestLinkify();
+			$("#loginpage #loginform").submit(function(e){
+			    var form = $(this);
+			    var uname = form.find('input[name="username"]').val();
+			    var pass = form.find('input[name="password"]').val();
+			    e.preventDefault();
+			    nest.user.login(uname, pass)
+				.done(function(response){
+			    	nestclient.setSession(response.session);
+			    	nestclient.updatelogininfo(response.info);
+			    	//nestclient.navigateToNoUnsaved(redirect);
+					return;
+			    }).fail(function(xhr){
+			    	nestclient.updatelogininfo(null);
+			    	nestclient.unexpectedRequestError(xhr);
+			    }).always(function(){
+			    	form.find('input[name="password"]').val('');
+			    });
+			    return false;
+			});
+		});
+	});
+</script>
+</html>

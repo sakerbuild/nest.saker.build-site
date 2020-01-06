@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<div id="bundlepage">
+	<div class="container">
+		<div class="row contentcontainerpadded" style="min-height: calc(100vh - var(--nav-height) - var(--footer-height)); align-items: stretch; padding-bottom: 0px;">
+			<div class="col-sm-12 col-md-12 offset-lg-1 col-lg-10 offset-xl-2 col-xl-8" style="position: relative;">
+				<h1 id="title"></h1>
+				<div id="errorcontainer" style="display: none;">
+					<p id="details"></p>
+					<ul>
+						Go to
+						<li><a href="/">Home</a></li>
+						<li><a href="/search">Search</a></li>
+					</ul>
+				</div>
+				<div id="detailscontainer" style="display: none;">
+					<div id="description" data-empty-placeholder="No description available." class="markdown-content emptyplaceholded"></div>
+					<div id="tagsdiv" class="packagedescdiv"></div>
+					<div id="licensediv" class="packagedescdiv license-info-holder" title="Licensing information">
+						<a id="licenseurl" class="license-url"></a>
+					</div>
+					<div id="sourcerepodiv" class="packagedescdiv" data-repo-type="none" title="Package Source repository">
+						<svg class="icon-code" data-repo-type="unknown" style="width:24px;height:24px" viewBox="0 0 24 24">
+						    <path fill="currentColor" d="M14.6,16.6L19.2,12L14.6,7.4L16,6L22,12L16,18L14.6,16.6M9.4,16.6L4.8,12L9.4,7.4L8,6L2,12L8,18L9.4,16.6Z" />
+						</svg>
+						<svg class="icon-code" data-repo-type="github" style="width:24px;height:24px" viewBox="0 0 24 24">
+						    <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" />
+						</svg>
+						<svg class="icon-code" data-repo-type="gitlab" style="width:24px;height:24px" viewBox="0 0 24 24">
+						    <path fill="currentColor" d="M3.16,10L12,21.5L2.32,14.3C2.05,14.09 1.94,13.75 2.04,13.44L3.16,10M6.11,3.17C6,2.83 5.5,2.83 5.37,3.17L3.16,10H8.32L6.11,3.17M8.32,10L12,21.5L15.68,10H8.32M21.96,13.44L20.84,10L12,21.5L21.68,14.3C21.95,14.09 22.06,13.75 21.96,13.44M18.63,3.17C18.5,2.83 18,2.83 17.89,3.17L15.68,10H20.84L18.63,3.17Z" />
+						</svg>
+						<svg class="icon-code" data-repo-type="bitbucket" style="width:24px;height:24px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+							<defs>
+							  <linearGradient x1="100%" x2="45.339%" y1="29.23%" y2="75.038%" id="uid29">
+								<stop stop-color="currentColor" stop-opacity="0.4" offset="0%"></stop>
+								<stop stop-color="currentColor" offset="100%"></stop>
+							  </linearGradient>
+							</defs>
+							<g stroke="none" stroke-width="1" fill-rule="nonzero">
+							  <path d="M4.78580435,5 C4.55423538,4.99701333 4.33319771,5.09657765 4.18198458,5.27198488 C4.03077145,5.44739211 3.96486141,5.68068714 4.00193478,5.9092887 L7.32946109,26.1096074 C7.3703589,26.355373 7.49665951,26.578828 7.68612174,26.7406224 C7.87680866,26.9055104 8.11992598,26.9972003 8.37200761,26.9992993 L14.5488998,19.5995707 L13.6827239,19.5995707 L12.3227102,12.3958093 L27.3886833,12.3958093 L28.4469072,5.91712739 C28.4862006,5.68935393 28.4229655,5.45584955 28.2741046,5.27903 C28.1252437,5.10221045 27.9059335,5.00010264 27.6747957,5 L4.78580435,5 Z" fill="currentColor"></path>
+							  <path fill="url(#uid29)" d="M27.3886833,12.3958093 L20.0320674,12.3958093 L18.7974728,19.5995707 L13.7023207,19.5995707 L7.68612174,26.7445417 C7.87680866,26.9094297 8.11992598,27.0011197 8.37200761,27.0032187 L24.3394307,27.0032187 C24.727754,27.0082167 25.0611955,26.7281258 25.1233002,26.3447683 L27.3886833,12.3958093 Z"></path>
+							</g>
+						</svg>
+						<svg class="icon-code" data-repo-type="sourceforge" style="width:24px;height:24px" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 299.6 263.2">
+							<path fill="currentColor" d="M171.2,139.8c0-49.1-17.4-71.4-26.6-79.8c-1.8-1.6-4.6-0.2-4.5,2.3c1.8,27.7-33,34.5-33,78h0c0,0.1,0,0.2,0,0.3  c0,26.5,20,48,44.7,48c24.7,0,44.7-21.5,44.7-48c0-0.1,0-0.2,0-0.3h0c0-12.3-4.6-24-9.3-32.8c-0.9-1.7-3.6-1.1-3.3,0.5  C192.3,145.4,171.2,168.6,171.2,139.8z"/>
+							<g>
+								<path fill="currentColor" d="M118.5,243.2c-1.1,0-2.2-0.4-3-1.3L1.2,127.8c-1.7-1.7-1.7-4.4,0-6L121.8,1.3c0.8-0.8,1.9-1.3,3-1.3h34.6   c2.1,0,3.4,1.4,3.9,2.6c0.5,1.3,0.6,3.2-0.9,4.7L49,120.7c-2.3,2.3-2.3,6,0,8.3l89.6,89.6c1.7,1.7,1.7,4.4,0,6l-17.1,17.3   C120.7,242.7,119.6,243.2,118.5,243.2z"/>
+							</g>
+							<g>
+								<path fill="currentColor" d="M140.2,263.2c-2.1,0-3.4-1.4-3.9-2.6c-0.5-1.3-0.6-3.2,0.9-4.7l113.4-113.4c1.1-1.1,1.7-2.6,1.7-4.1   s-0.6-3-1.7-4.1L161,44.6c-1.7-1.7-1.7-4.4,0-6l17.4-17.4c0.8-0.8,1.9-1.3,3-1.3s2.2,0.4,3,1.3l114,114.1c0.8,0.8,1.3,1.9,1.3,3   s-0.4,2.2-1.3,3L177.8,261.9c-0.8,0.8-1.9,1.2-3,1.2H140.2z"/>
+							</g>
+						</svg>
+						<a id="sourcerepourl"></a>
+					</div>
+					<div id="documentationdiv" class="packagedescdiv" title="Package documentation location">
+						<svg id="documentationicon" style="width:24px;height:24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+							<path fill="currentColor" d="m 2.2526,5.7943 l 0,12.9957 c 3.249,-2.03 6.498,-2.03 9.7474,0 c 3.249,-2.03 6.498,-2.03 9.747,0 l 0,-12.9957 C 18.498,3.7637 15.249,3.7637 12,5.7943 c -3.2793,-1.9405 -6.8503,-1.7762 -9.7474,0 z m 8.1224,1.726 l 0,8.0207 C 8.3081,14.851 6.4129,14.674 4.537,15.389 l 0,-8.2239 c 2.287,-1.0085 4.48,-0.5243 5.838,0.3552 z m 9.088,-0.3552 l 0,8.2239 c -2.297,-0.718 -4.023,-0.457 -5.839,0.152 l 0,-8.0207 c 1.866,-1.0392 3.67,-1.3169 5.839,-0.3552 z"/>
+						</svg>
+						<a id="documentationurl"></a>
+					</div>
+					<div id="latestversiondiv" style="position: relative; display: none;">
+						<hr/>
+						<h3>Available versions</h3>
+						<div class="row" style="position: relative; min-height: 300px; ">
+							<div class="col-2" style="padding-right: 0px; position: absolute; left: 0; top: 0; bottom: 0; overflow-y: auto;">
+								<ul id="versionlist" class="bundleversionlist">
+								</ul>
+							</div>
+							<div class="offset-2 col-10" style="border-left: 1px solid var(--hr-color); padding: 0; padding-right: 15px;">
+								<div id="versiondetailscontent">
+									<div style="display: flex; align-items: center; flex-wrap: wrap; padding: 0 15px;">
+										<h5 id="versiontitle" style="margin-right: auto;"></h5>
+										<p id="publisheddate" class="publisheddisplayer" style="margin: 0;"></p>
+									</div>
+									<div id="versiontabbedviewer" class="tabbedviewer">
+										<div class="tabs" style=" padding: 0 15px;">
+											<a class="tab" title="Version changelog" data-tab-content-id="changelogcontainer">Changelog</a>
+											<a class="tab" title="Bundles in version" data-tab-content-id="bundlescontainer">Bundles</a>
+											<a class="tab" title="Tasks in this version" data-tab-content-id="taskscontainer">Tasks</a>
+										</div>
+										<div id="tabcontainer" class="tabcontainer" style=" padding: 5px 15px;">
+											<div id="changelogcontainer" data-tab-content-id="changelogcontainer" class="tabcontent" style="margin-bottom: 10px;">
+												<div id="info" class="secondaryinfo small" style="margin-bottom: 10px;">
+													The following notable changes are present in this release.
+												</div>
+												<div id="changelogcontent" class="markdown-content emptyplaceholded" data-empty-placeholder="No changelog available for this version." style="padding-left: 10px;"></div>
+											</div>
+											<div id="taskscontainer" data-tab-content-id="taskscontainer" class="tabcontent">
+												<div id="taskscontent">
+													<div id="info" class="secondaryinfo small" style="margin-bottom: 10px;">
+														The following tasks are present in this release.
+													</div>
+													<div id="taskslist" style="list-style: none; padding-left: 0px;">
+													</div>
+												</div>
+											</div>
+											<div id="bundlescontainer" data-tab-content-id="bundlescontainer" class="tabcontent">
+												<div id="bundlescontent">
+													<div class="secondaryinfo small" style="margin-bottom: 10px;">
+														The following bundles were uploaded as part of this release.
+													</div>
+													<div id="bundleslist"  style="list-style: none; padding-left: 0px;">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="unpublishnotice">
+										This version has been unpublished by the repository administrators.
+									</div>
+								</div>
+								<div id="versionloadingindicator" style="min-height: 20vh;">
+									<div class="lds-ellipsis" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto;"><div></div><div></div><div></div><div></div></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="loadingindicator" style="min-height: 50vh;">
+					<div class="lds-ellipsis" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto;"><div></div><div></div><div></div><div></div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	document.title = 'Package info' + nestclient.site_title_append;
+	$(document).ready(function(){
+		let url = new URL(window.location.href);
+		
+		$('#bundlepage #licensediv').prepend(nestclient.licensesvg);
+		
+		$('#bundlepage #versiondetailscontent #versiontabbedviewer .tab[data-tab-content-id]')
+			.click(function(e){
+				if (e.ctrlKey || e.shiftKey) {
+			        //is special click
+			        return;
+			    }
+				nestclient.activateTab($(this));
+				return false;
+			});
+		let inittab = url.searchParams.get('tab') + 'container';
+		let inittabjq = $('#bundlepage #versiondetailscontent #versiontabbedviewer .tab[data-tab-content-id="' + inittab + '"]');
+		if(inittabjq.length == 0){
+			inittabjq = $('#bundlepage #versiondetailscontent #versiontabbedviewer .tab[data-tab-content-id="changelogcontainer"]');
+		}
+		nestclient.activateTab(inittabjq);
+		
+		let split = url.pathname.split('/');
+		if(split.length >= 3 && split[0] == '' && split[1] == 'package') {
+			let bundle = split[2];
+			$('#bundlepage #title').text(bundle);
+			document.title = bundle + nestclient.site_title_append;
+			
+			nest.bundles.getdetails(nestclient.session, bundle)
+			.done(function(response){
+				let result = response.result;
+				result.versions.sort(nest.bundleid.reverseversioncomparator);
+				
+				if (result.description != null) {
+					$('#bundlepage #description').markdownContent(result.description);
+				}
+				if(result.source_repository != null){
+					let settext = result.source_repository;
+					try{
+						let repourl = new URL(result.source_repository);
+						let hn = repourl.hostname;
+						if ("github.com" == hn) {
+							$('#bundlepage #sourcerepodiv').attr({ 'data-repo-type': 'github' });
+							let reposplit = repourl.pathname.split('/');
+							if(reposplit.length == 3 && reposplit[0] == '') {
+								settext = reposplit[1] + '/' + reposplit[2];
+							}
+						} else if ("gitlab.com" == hn) {
+							$('#bundlepage #sourcerepodiv').attr({ 'data-repo-type': 'gitlab' });
+						} else if ("bitbucket.com" == hn) {
+							$('#bundlepage #sourcerepodiv').attr({ 'data-repo-type': 'bitbucket' });
+						} else if ("sourceforge.net" == hn) {
+							$('#bundlepage #sourcerepodiv').attr({ 'data-repo-type': 'sourceforge' });
+						} else {
+							$('#bundlepage #sourcerepodiv').attr({ 'data-repo-type': 'unknown' });
+						}
+					}catch(error){
+						//invalid url
+					}
+					$('#bundlepage #sourcerepourl').text(settext).attr({ href: result.source_repository });
+				}
+				if (result.license_url != null && result.license_url != "") {
+					let a = $('#bundlepage #licenseurl');
+					if (result.license_abbreviation != null && result.license_abbreviation != "") {
+						a.append($(document.createElement('code')).text(result.license_abbreviation));
+					} else {
+						a.text(result.license_url);
+					}
+					a.attr({ href: result.license_url });
+				} else {
+					$('#bundlepage #licensediv').css('display', 'none');
+				}
+				if(result.documentation_url != null && result.documentation_url != "") {
+					$('#bundlepage #documentationdiv #documentationurl').attr({ href: result.documentation_url}).text(result.documentation_url);
+				} else {
+					$('#bundlepage #documentationdiv').css('display','none');
+				}
+				
+				$('#bundlepage #detailscontainer').show().append(nest.search.fillTagsDiv(result.tags, $('#bundlepage #tagsdiv')));
+				
+				
+				function loadBundleVersionDetails(loadversion){
+					$('#bundlepage #versiondetailscontent').removeClass('unpublished-version').hide();
+					$('#bundlepage #versionloadingindicator').show();
+					$('#bundlepage #versionlist li.active').removeClass('active');
+					if(loadversion != null){
+						$('#bundlepage #versiondetailscontent #versiontabbedviewer .tab').each(function(idx, dom){
+							let tabcontentid = $(this).attr('data-tab-content-id');
+							$(this).attr('href', url.pathname + '?' + 'version=' + loadversion + '&tab=' + tabcontentid.substring(0, tabcontentid.indexOf('container')));
+						});
+						nest.bundles.getversiondetails(nestclient.session, bundle, loadversion)
+						.done(function(response){
+							let result = response.result;
+							
+							let date = new Date(result.publishdate);
+							$('#bundlepage #publisheddate').text(nest.utils.formatDate(date));
+							
+							$('#bundlepage #changelogcontent').markdownContent(result.changelog);
+							$('#bundlepage #changelogcontainer #info').toggle($('#bundlepage #changelogcontent').is(':not(:empty)'));
+							
+							result.bundletasks.sort(function (a, b) {
+							    return a.bundleid.replace('-' + loadversion, '').localeCompare(b.bundleid.replace('-' + loadversion, ''));
+							});
+							
+							let presenttasks = [];
+							
+							let btlist = $('#bundlepage #bundlescontent #bundleslist').empty();
+							result.bundletasks.forEach(function(val) {
+								let li = $(document.createElement('div'))
+									.append(
+										$(document.createElement('h5'))
+										.text(val.bundleid.replace('-' + loadversion, ''))
+										.append(
+											$(document.createElement('span')).addClass('secondaryinfo').text('-' + loadversion)
+										)
+										.append(
+											$(document.createElement('a'))
+												.text('Download')
+												.attr('title', 'Download ' + val.bundleid)
+												.css('float', 'right')
+												.css('font-size', '90%')
+												.attr('href', nest.apidomain + '/bundle/download/' + encodeURI(val.bundleid))
+										)
+									);
+								btlist.append(li);
+								if(val.tasks != null){
+									val.tasks.forEach(function(task){
+										presenttasks.push({
+											task: task,
+											qtaskname: task.taskname + val.bundleid.substring(val.bundleid.indexOf('-'))
+										});
+									});
+								}
+								
+								let bundleinfodiv = $(document.createElement('div'))
+									.css('padding-left', '10px')
+									.css('padding-bottom', '10px');
+									
+								let descriptiondiv = $(document.createElement('div'))
+									.addClass('emptyplaceholded')
+									.addClass('markdown-content')
+									.attr({
+										"data-empty-placeholder": 'No description.'
+									})
+									.markdownContent(val.description);
+								
+								
+								if (val.license_url != null && val.license_url != "") {
+									let a = $(document.createElement('a'));
+									if (val.license_abbreviation != null && val.license_abbreviation != "") {
+										a.append($(document.createElement('code')).text(val.license_abbreviation));
+									} else {
+										a.text(val.license_url);
+									}
+									a.addClass('license-url')
+									a.attr({ href: val.license_url });
+									bundleinfodiv.append(
+										$(document.createElement('div'))
+										.addClass('license-info-holder')
+										.append(nestclient.licensesvg)
+										.css('margin-bottom', '5px')
+										.append(a)
+										.attr('title', 'Bundle licensing information')
+									);
+								}
+								
+								bundleinfodiv.append(descriptiondiv);
+								
+								if(val.dependencies != null && val.dependencies.length > 0){
+									let depsdiv = $(document.createElement('div'))
+										.append(
+											$(document.createElement('hr'))
+											.css('max-width', '30%')
+											.css('margin-top', '5px')
+											.css('margin-left', '0')
+											.css('margin-bottom', '0')
+										)
+										.css('padding-top', '5px')
+										.append('<span>Dependencies</span>');
+									let depscontentdiv = $(document.createElement('div'))
+										.css('padding-left', '10px');
+									
+									val.dependencies.forEach(function(dep){
+										let depbundlename = nest.bundleid.getbundlename(dep);
+										let deplink = $(document.createElement('a'))
+											.text(dep);
+										if (depbundlename == nest.bundleid.getbundlename(val.bundleid)) {
+											//the dependency is in the same bundle, so we dont need to navigate to other page
+											//XXX implement this to not navigate
+											let depversion = nest.bundleid.getversion(dep);
+											deplink.nestLinkify('/package/' + depbundlename + '?tab=bundles' + (depversion == null ? '' : ('&version=' + depversion)))
+										} else {
+											let depversion = nest.bundleid.getversion(dep);
+											deplink.nestLinkify('/package/' + depbundlename + '?tab=bundles' + (depversion == null ? '' : ('&version=' + depversion)))
+										}
+
+										depscontentdiv.append(
+											$(document.createElement('div'))
+											.append(deplink)
+										);
+									});
+										
+									depsdiv.append(depscontentdiv);
+									bundleinfodiv.append(depsdiv);
+								}
+								
+								li.append(bundleinfodiv);
+							});
+							
+							presenttasks.sort(function (a, b) {
+							    return a.qtaskname.replace('-' + loadversion, '').localeCompare(b.qtaskname.replace('-' + loadversion, ''));
+							});
+							let tasklist = $('#bundlepage #taskscontent #taskslist').empty();
+							$('#bundlepage #taskscontainer #info').toggle(presenttasks.length > 0);
+							if(presenttasks.length != 0){
+								presenttasks.forEach(function(taskobj){
+									let task = taskobj.task;
+									let qtaskname = taskobj.qtaskname;
+									let li = $(document.createElement('div'))
+										.append(
+											$(document.createElement('h5'))
+											.text(qtaskname.replace('-' + loadversion, ''))
+											.append($(document.createElement('span')).addClass('secondaryinfo').text('-' + loadversion))
+										);
+									li.append(
+										$(document.createElement('div'))
+										.css('padding-left', '10px')
+										.css('padding-bottom', '10px')
+										.addClass('emptyplaceholded')
+										.addClass('markdown-content')
+										.attr({
+											"data-empty-placeholder": 'No description.'
+										})
+										.markdownContent(task.description)
+									);
+									tasklist.append(li);
+								});
+							}else{
+								tasklist.append(
+									$(document.createElement('li')).append(
+										$(document.createElement('div'))
+										.addClass('emptyplaceholded')
+										.attr({
+											"data-empty-placeholder": 'This version contains no tasks.'
+										})
+									)
+								);
+							}
+						})
+						.fail(function(xhr){
+							if (nestclient.handleGenericRequestErrors(xhr)) {
+                                return;
+                            }
+                            let json = xhr.responseJSON;
+                            switch (json.error) {
+                                case "version_unpublished":
+                                	$('#bundlepage #versiondetailscontent').addClass('unpublished-version');
+                                	break;
+                                default:
+                                    nestclient.unexpectedRequestError(xhr);
+                                    break;
+                            }
+							
+						}).always(function(){
+							$('#bundlepage #versiontitle').text('Version ' + loadversion.substring(1));
+							$('#bundlepage #versionlist li[data-version="' + loadversion + '"]').addClass('active');
+							
+							$('#bundlepage #versiondetailscontent').show();
+							$('#bundlepage #versionloadingindicator').hide();
+						});
+					}
+				}
+				
+				let loadversion = url.searchParams.get('version');
+				
+				$('#bundlepage #latestversiondiv').show();
+				if(result.versions.length == 0){
+					loadversion = null;
+					$('#bundlepage #latestversiondiv')
+					.empty()
+					.append(
+						$(document.createElement('p'))
+						.text('No versions uploaded yet.')
+						.addClass('missingvalueplaceholder')
+					);
+				}else{
+					if(loadversion != null && !result.versions.includes(loadversion)){
+						loadversion = null;
+					}
+					if (loadversion == null) {
+						loadversion = result.versions[0];
+					}
+					$('#bundlepage #latestversiondiv');
+					let vlist = $('#bundlepage #versionlist');
+					result.versions.forEach(function(version){
+						vlist.append(
+							$(document.createElement('li'))
+							.addClass('selectable-list-element')
+							.attr({
+								"data-version": version,
+								"title": "Version " + version
+							})
+							.append(
+								$(document.createElement('a'))
+								.attr({
+									"href": url.pathname + '?' + $.param({ version: version})
+								})
+								.click(function(e){
+									if (e.ctrlKey || e.shiftKey) {
+								        //is special click
+								        return true;
+								    }
+								    loadBundleVersionDetails(version);
+								    return false;
+								})
+								.text(version)
+							)
+						);
+					});
+				}
+				loadBundleVersionDetails(loadversion);
+				if (loadversion != null) {
+					$('#bundlepage #versionlist li[data-version="' + loadversion + '"]')[0].scrollIntoView(false);
+				}
+			})
+			.fail(function(xhr){
+				$('#bundlepage #errorcontainer a').nestLinkify();
+				$('#bundlepage #errorcontainer').show().find('#details').append('Package not found or no longer available with the given name.');
+			})
+			.always(function(){
+				$('#bundlepage #loadingindicator').remove();
+			});
+		} else {
+			$('#bundlepage #title').text('Package not found.');
+			$('#bundlepage #errorcontainer a').nestLinkify();
+			$('#bundlepage #errorcontainer').show().find('#details').append('Package not found or no longer available for the given URL.');
+			$('#bundlepage #loadingindicator').remove();
+		}
+	});
+</script>
+</html>
