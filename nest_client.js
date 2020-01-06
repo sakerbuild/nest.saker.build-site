@@ -119,48 +119,48 @@ var nestclient = {
 		}
 		if(url){
 			if(url.pathname == "/"){
-				nestclient.loadContent("/landing.html", url, addhistory);
+				nestclient.loadContent("/landing_content.html", url, addhistory);
 				return;
 			} else if (url.pathname.startsWith("/user")) {
 				if (url.pathname == "/user/verify"){
-					nestclient.loadContent("/user/verify.html", url, addhistory);
+					nestclient.loadContent("/user/verify_content.html", url, addhistory);
 					return;
 				}else if (url.pathname == "/user/packages"){
-					nestclient.loadContent("/user/packages.html", url, addhistory);
+					nestclient.loadContent("/user/packages_content.html", url, addhistory);
 					return;
 				}else if(url.pathname == "/user/settings"){
-					nestclient.loadContent("/user/settings.html", url, addhistory);
+					nestclient.loadContent("/user/settings_content.html", url, addhistory);
 					return;	
 				} else if (url.pathname == '/user/recover/password'){
-					nestclient.loadContent("/user/recover/password.html", url, addhistory);
+					nestclient.loadContent("/user/recover/password_content.html", url, addhistory);
 					return;
 				}
 			}else if (url.pathname == '/register'){
-				nestclient.loadContent("/register.html", url, addhistory);
+				nestclient.loadContent("/register_content.html", url, addhistory);
 				return;
 			}else if (url.pathname == '/login'){
-				nestclient.loadContent("/login.html", url, addhistory);
+				nestclient.loadContent("/login_content.html", url, addhistory);
 				return;
 			} else if (url.pathname == '/forgot/password'){
-				nestclient.loadContent("/forgot/password.html", url, addhistory);
+				nestclient.loadContent("/forgot/password_content.html", url, addhistory);
 				return;
 			} else if (url.pathname == '/forgot/username'){
-				nestclient.loadContent("/forgot/username.html", url, addhistory);
+				nestclient.loadContent("/forgot/username_content.html", url, addhistory);
 				return;
 			}else if(url.pathname == '/search'){
-				nestclient.loadContent("/search.html", url, addhistory);
+				nestclient.loadContent("/search_content.html", url, addhistory);
 				return;
 			}else if(url.pathname.startsWith('/package')){
-				nestclient.loadContent("/package.html", url, addhistory);
+				nestclient.loadContent("/package_content.html", url, addhistory);
 				return;
 			}else if(url.pathname == '/apidomain'){
-				nestclient.loadContent("/apidomain.html", url, addhistory);
+				nestclient.loadContent("/apidomain_content.html", url, addhistory);
 				return;
 			}else if(url.pathname == '/privacy'){
-				nestclient.loadContent("/privacy.html", url, addhistory);
+				nestclient.loadContent("/privacy_content.html", url, addhistory);
 				return;
 			}else if(url.pathname == '/terms'){
-				nestclient.loadContent("/terms.html", url, addhistory);
+				nestclient.loadContent("/terms_content.html", url, addhistory);
 				return;
 			}
 			
