@@ -98,7 +98,8 @@ var nestclient = {
 		$("#content").empty().append(loadinghtml);
 		nest.utils.makeajax({
 			"url" : url,
-			type  : 'GET'	
+			type  : 'GET',
+			cache: true
 		}).done(function(response){
 			nestclient.loadStringContent(response, urlPath, addhistory);
 		}).fail(function(xhr) {

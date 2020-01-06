@@ -88,8 +88,6 @@ nest.utils = {
 		document.body.setAttribute('data-requests', clattr);
 	},
 	makeajax: function(params) {
-		//params.cache = true;
-		params.ifModified = true;
 		nest.utils.addPendingRequest();
 		return $.ajax(params).always(function(){
 			nest.utils.removePendingRequest();
