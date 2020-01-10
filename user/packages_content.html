@@ -924,8 +924,18 @@ Secret: <span id="apikeysecret"></span></div>
                                 sortedbundles.sort(function(a, b) {
                                     return a.bundleid.replace('-' + version, '').localeCompare(b.bundleid.replace('-' + version, ''));
                                 });
+                                $('#bundlespage #bulktaskops').empty();
+                                let taskbulkopdiv = $(document.createElement('div'))
+                                	.append('<div>Bulk task operations</div>'); 
+                        		let taskbulkinfodropdowndiv = $(document.createElement('div'))
+                        			.addClass('dropdown-menu')
+                        			.attr('aria-labelledby', 'dropdownCopyInfoLink')
+                        			.css('overflow-y', 'auto')
+                        			.css('max-height', '50vh')
+                        			.css('text-align', 'right');
+	                            let taskbulkopcount = 0;
                                 sortedbundles.forEach(function(bundle) {
-                              	  let bundledetailscontainerdiv = $(document.createElement('div'))
+                              		let bundledetailscontainerdiv = $(document.createElement('div'))
                                         .addClass('uploaded-bundle-details')
                                         .attr('data-bundleid', bundle.bundleid);
                                     let bundledetailsdiv = $(document.createElement('div'))
@@ -1092,7 +1102,6 @@ Secret: <span id="apikeysecret"></span></div>
                                             });
                                             bundledetailsdiv.append(depscontainer);
                                         }
-                                        $('#bundlespage #bulktaskops').empty();
                                         if (bundle.tasks != null && bundle.tasks.length != 0) {
                                             bundle.tasks.forEach(function(task) {
                                                 let taskqualifiers = bundle.bundleid.substring(bundle.bundleid.indexOf('-'));
@@ -1151,27 +1160,10 @@ Secret: <span id="apikeysecret"></span></div>
                                                 taskscontent.append(taskcontainer);
                                             });
                                             
-			                                let bulkopdiv = $(document.createElement('div'))
-			                                	.append('<div>Bulk task operations</div>'); 
-				                            let bulkopcount = 0;
 				                            if(data.versions.length > 1){
-					                            bulkopdiv.append('<div class="secondaryinfo small">Copy task descriptions from a previous version.</div>');
-				                        		bulkopdiv.append(`
-				                        			<button class="dropdown-toggle" title="Copy task information" id="dropdownCopyInfoLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 3px;">
-														Copy task informations from...
-													</button>
-				                        		`);
-				                        		let dropdowndiv = $(document.createElement('div'))
-				                        			.addClass('dropdown-menu')
-				                        			.attr('aria-labelledby', 'dropdownCopyInfoLink')
-				                        			.css('overflow-y', 'auto')
-				                        			.css('max-height', '50vh')
-				                        			.css('text-align', 'right');
-				                        		bulkopdiv.append(dropdowndiv);
-				                        		
 				                        		data.versions.forEach(function(ver){
 				                        			if(version != ver.version) {
-				                        				dropdowndiv.append(
+				                        				taskbulkinfodropdowndiv.append(
 				                        					$(document.createElement('a'))
 				                        					.addClass('dropdown-item')
 				                        					.text(ver.version)
@@ -1198,11 +1190,8 @@ Secret: <span id="apikeysecret"></span></div>
 				                        				);
 				                        			}
 				                        		});
-				                        		++bulkopcount;
+				                        		++taskbulkopcount;
 			                        		}
-			                        		if(bulkopcount > 0){
-				                            	$('#bundlespage #bulktaskops').append(bulkopdiv);
-				                            }
                                         }
                                     }
 
@@ -1259,6 +1248,19 @@ Secret: <span id="apikeysecret"></span></div>
                                     $('#bundlespage #uploadedbundles').append(bundledetailscontainerdiv);
                                     
                                 });
+                                if (!taskbulkinfodropdowndiv.is(':empty')){
+                                	taskbulkopdiv.append('<div class="secondaryinfo small">Copy task descriptions from a previous version.</div>');
+	                        		taskbulkopdiv.append(`
+	                        			<button class="dropdown-toggle" title="Copy task information" id="dropdownCopyInfoLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 3px;">
+											Copy task informations from...
+										</button>
+	                        		`);
+	                        		taskbulkopdiv.append(taskbulkinfodropdowndiv);
+                                }
+                                if(taskbulkopcount > 0){
+	                            	$('#bundlespage #bulktaskops').append(taskbulkopdiv);
+	                            }
+                                
                                 $('#bundlespage #bulkbundleops').empty();
                                 //TODO remove the bulk bundle operations if the bundle is published, the delete button is removed, and there are no more available actions
                                 let bulkopdiv = $(document.createElement('div'))
