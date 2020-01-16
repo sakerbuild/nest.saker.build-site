@@ -10,7 +10,7 @@
 		<div class="row">
 			<div class="offset-1 col-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6" style="margin-bottom: 20px;">
 				<form id="searchform">
-					<input id="searchinput" title="Search packages based on keywords and #tags" type="search" style="width: 100%;" placeholder="Search">
+					<input id="searchinput" title="Search packages based on keywords and #tags" type="search" style="width: 100%;" placeholder="Search based on keywords and #tags">
 				</form>
 			</div>
 		</div>
@@ -119,10 +119,14 @@
 		
 		executeSearch(phrase, offset, count, false);
 		
-		$('#searchform').submit(function(){
-			executeSearch($('#searchinput').val(), null, null);
+		$('#searchpage #searchform').submit(function(){
+			executeSearch($('#searchpage #searchinput').val(), null, null);
 			return false;
 		});
+		
+		if(phrase == null || phrase == "") {
+			$('#searchpage #searchinput').focus();
+		}
 	});
 	
 })();
