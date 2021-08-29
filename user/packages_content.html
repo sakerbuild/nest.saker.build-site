@@ -406,6 +406,7 @@ Secret: <span id="apikeysecret"></span></div>
                             data.bundles.sort(function(l, r) {
                                 return nest.bundleid.reverseversioncomparator(l.version, r.version);
                             });
+                            data.descendingVersions = data.versions.slice().reverse();
 
                             data.versions.forEach(function(pubver) {
                                 data.versionsbyversion[pubver.version] = pubver;
@@ -1160,8 +1161,8 @@ Secret: <span id="apikeysecret"></span></div>
                                                 taskscontent.append(taskcontainer);
                                             });
                                             
-				                            if(data.versions.length > 1){
-				                        		data.versions.forEach(function(ver){
+				                            if(data.descendingVersions.length > 1){
+				                        		data.descendingVersions.forEach(function(ver){
 				                        			if(version != ver.version) {
 				                        				taskbulkinfodropdowndiv.append(
 				                        					$(document.createElement('a'))
@@ -1266,7 +1267,7 @@ Secret: <span id="apikeysecret"></span></div>
                                 let bulkopdiv = $(document.createElement('div'))
                                 	.append('<div>Bulk bundle operations</div>'); 
 	                            let bulkopcount = 0;
-	                            if(data.versions.length > 1){
+	                            if(data.descendingVersions.length > 1){
 	                        		let dropdowndiv = $(document.createElement('div'))
 	                        			.addClass('dropdown-menu')
 	                        			.attr('aria-labelledby', 'dropdownCopyInfoLink')
@@ -1274,7 +1275,7 @@ Secret: <span id="apikeysecret"></span></div>
 	                        			.css('max-height', '50vh')
 	                        			.css('text-align', 'right');
 	                        		
-	                        		data.versions.forEach(function(ver){
+	                        		data.descendingVersions.forEach(function(ver){
 	                        			if(version != ver.version) {
 	                        				let bundlesbyver = data.bundlesbyversion[ver.version];
 	                        				if(bundlesbyver != null && bundlesbyver.length > 0){
